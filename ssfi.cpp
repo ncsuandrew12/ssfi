@@ -16,20 +16,20 @@ int main(int argc, char **argv) {
         for (int i = 1; i < argc; i++) {
             if (std::string(argv[i]) == "-t") {
                 if (i >= argc - 1) {
-                    throw SSFI_EX(
+                    throw SSFI_Ex(LOC,
                             new std::invalid_argument("no value provided"),
-                            "no value provided for %s", 1, argv[i]);
+                            "no value provided for %s", argv[i]);
                 }
                 worker_threads = std::stoi(argv[i + 1]);
             }
         }
 
-        LOG("worker threads: %d\n", worker_threads);
+        log(LOC, "worker threads: %d", worker_threads);
 
     } catch (const SSFI_Ex& e) {
         e.err();
     } catch (const std::invalid_argument& e) {
-        LOG_ERR("%s thrown: %s\n", typeid(e).name(), e.what());
+        log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
     }
     return 0;
 }

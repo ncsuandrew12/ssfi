@@ -1,18 +1,10 @@
 #ifndef ERR_H_
 #define ERR_H_
 
-#include <stdarg.h>
+#include <stdio.h>
 
-#include <memory>
 #include <stdexcept>
 #include <string>
-#include <typeinfo>
-
-#include "util.h"
-
-#define EX_P2S_MAX 512
-
-#define SSFI_EX(...) SSFI_Ex(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 
 class SSFI_Ex: public std::exception {
     std::exception* _cause;
@@ -23,19 +15,19 @@ class SSFI_Ex: public std::exception {
     const char* _what;
 
 public:
-    explicit SSFI_Ex(const char* file, const char* func, const int& line,
-            std::exception* cause, const char* format, const int& argc, ...);
-    explicit SSFI_Ex(const char* file, const char* func, const int& line,
-            const char* what, const char* format, const int& argc, ...);
-    explicit SSFI_Ex(const char* file, const char* func, const int& line,
-            std::exception* cause, const char* what, const char* format,
-            const int& argc, ...);
-    explicit SSFI_Ex(const char* file, const char* func, const int& line,
+    explicit SSFI_Ex(const char* file, const int& line, const char* func,
             std::exception* cause);
+    explicit SSFI_Ex(const char* file, const int& line, const char* func,
+            std::exception* cause, const char* format, ...);
+    explicit SSFI_Ex(const char* what, const char* file, const int& line,
+            const char* func, const char* format, ...);
+    explicit SSFI_Ex(const char* what, const char* file, const int& line,
+            const char* func, std::exception* cause, const char* format, ...);
 
     virtual ~SSFI_Ex();
     void err() const noexcept;
-    void print(FILE* stream) const noexcept;
+    std::string msg() const noexcept;
+    void print(FILE* file) const noexcept;
     const char * what() const noexcept;
 };
 

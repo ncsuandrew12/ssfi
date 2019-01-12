@@ -1,50 +1,69 @@
 #include "err.h"
 
 #include <stdarg.h>
-#include <stdio.h>
 
+#include <memory>
+#include <typeinfo>
 #include <string>
 
-SSFI_Ex::SSFI_Ex(const char* file, const char* func, const int& line,
-        std::exception* cause, const char* format, const int& argc, ...) :
-        _cause(cause), _file(file), _func(func), _line(_line), _what(nullptr) {
-    if (format != nullptr) {
-        va_list args;
-        va_start(args, argc);
-        this->_msg = print_to_string(EX_P2S_MAX, format, args);
-        va_end(args);
-    }
-}
+#include "util.h"
 
-SSFI_Ex::SSFI_Ex(const char* file, const char* func, const int& line,
-        const char* msg, const char* format, const int& argc, ...) :
-        _cause(nullptr), _file(file), _func(func), _line(_line), _what(msg) {
-    if (format != nullptr) {
-        va_list args;
-        va_start(args, argc);
-        this->_msg = print_to_string(EX_P2S_MAX, format, args);
-        va_end(args);
-    }
-}
-
-SSFI_Ex::SSFI_Ex(const char* file, const char* func, const int& line,
-        std::exception* cause, const char* msg, const char* format,
-        const int& argc, ...) :
-        _cause(cause), _file(file), _func(func), _line(_line), _what(msg) {
-    va_list args;
-
-    if (format != nullptr) {
-        va_list args;
-        va_start(args, argc);
-        this->_msg = print_to_string(EX_P2S_MAX, format, args);
-        va_end(args);
-    }
-}
-
-SSFI_Ex::SSFI_Ex(const char* file, const char* func, const int& line,
+SSFI_Ex::SSFI_Ex(const char* file, const int& line, const char* func,
         std::exception* cause) :
         _cause(cause), _file(file), _func(func), _line(_line), _msg(nullptr), _what(
                 nullptr) {
+}
+
+SSFI_Ex::SSFI_Ex(const char* file, const int& line, const char* func,
+        std::exception* cause, const char* format, ...) :
+        _cause(cause), _file(file), _func(func), _line(_line), _what(nullptr) {
+    if (format != nullptr) {
+        va_list args;
+        va_start(args, format);
+        size_t size = printf_len(format, args);
+        va_end(args);
+        va_start(args, format);
+        this->_msg = printf_to_string(size, format, args);
+        va_end(args);
+    }
+}
+
+SSFI_Ex::SSFI_Ex(const char* w, const char* file, const int& line,
+        const char* func, const char* format, ...) :
+        _cause(nullptr), _file(file), _func(func), _line(_line), _what(w) {
+    if (format != nullptr) {
+        va_list args;
+        va_start(args, format);
+        size_t size = printf_len(format, args);
+        va_end(args);
+        va_start(args, format);
+        this->_msg = printf_to_string(size, format, args);
+        va_end(args);
+    }
+}
+
+SSFI_Ex::SSFI_Ex(const char* w, const char* file, const int& line,
+        const char* func, std::exception* cause, const char* format, ...) :
+        _cause(cause), _file(file), _func(func), _line(_line), _what(w) {
+    printf(LOC_PRINTF, LOC);
+    printf("\n");
+    if (format != nullptr) {
+        printf(LOC_PRINTF, LOC);
+        printf("\n");
+        va_list args;
+        va_start(args, format);
+        printf(LOC_PRINTF, LOC);
+        printf("format=%s\n", format);
+        size_t size = printf_len(format, args);
+        printf(LOC_PRINTF, LOC);
+        printf("size=%d\n", size);
+        va_end(args);
+        va_start(args, format);
+        this->_msg = printf_to_string(size, format, args);
+        printf(LOC_PRINTF, LOC);
+        printf("_msg=%s\n", _msg.c_str());
+        va_end(args);
+    }
 }
 
 SSFI_Ex::~SSFI_Ex() {
@@ -57,25 +76,27 @@ void SSFI_Ex::err() const noexcept {
     print(stderr);
 }
 
-void SSFI_Ex::print(FILE* stream) const noexcept {
-    int ret = 0;
-    std::string str;
-    fprintf(stream, "%s(%s:%d) %s: ", _func, _file, _line, typeid(this).name());
+std::string SSFI_Ex::msg() const noexcept {
+    std::string ret = printf_to_string(LOC_PRINTF, _file, _line, _func);
+    ret.append(printf_to_string("%s: ", typeid(this).name()));
     if (_msg != "") {
-        fprintf(stream, _msg.c_str());
+        ret.append(_msg.c_str());
     } else if (_what != nullptr) {
-        fprintf(stream, "%s", _what);
+        ret.append(_what);
     }
     if (_cause != nullptr) {
-        fprintf(stream, "\n\tcaused by: ");
+        ret.append("\n\tcaused by: ");
         if (dynamic_cast<SSFI_Ex*>(_cause)) {
-            dynamic_cast<SSFI_Ex*>(_cause)->print(stream);
+            ret.append(dynamic_cast<SSFI_Ex*>(_cause)->msg());
         } else {
-            fprintf(stream, "%s: %s\n", typeid(_cause).name(), _cause->what());
+            ret.append(_cause->what());
         }
-    } else {
-        fprintf(stream, "\n");
     }
+    return ret;
+}
+
+void SSFI_Ex::print(FILE* file) const noexcept {
+    fprintf(file, "%s\n", msg().c_str());
 }
 
 const char* SSFI_Ex::what() const noexcept {

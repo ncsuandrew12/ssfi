@@ -1,18 +1,18 @@
 #ifndef LOG_H_
 #define LOG_H_
 
+#include <stdarg.h>
 #include <stdio.h>
 
-#ifdef SSFI_DEBUG
-#define LOG_ERR(f, ...) \
-    log_inner(stderr, __FILE__, __FUNCTION__, __LINE__, f, __VA_ARGS__)
-#define LOG(f, ...) \
-    log_inner(stdout, __FILE__, __FUNCTION__, __LINE__, f, __VA_ARGS__)
-#else
-#define LOG_ERR(f, ...)
-#define LOG(f, ...)
-#endif
+#include "util.h"
 
-int log_inner(FILE*, const char*, const char*, const int&, const char*, ...);
+extern int flogv(FILE* stream, const char* file, const int& line,
+        const char* func, const char* format, ...);
+extern int flog(FILE* stream, const char* file, const int& line,
+        const char* func, const char* format, va_list args);
+extern void log(const char* file, const int& line, const char* func,
+        const char* format, ...);
+extern void log_err(const char* file, const int& line, const char* func,
+        const char* format, ...);
 
 #endif /* LOG_H_ */
