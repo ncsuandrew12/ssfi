@@ -1,6 +1,6 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-OBJS = log.o ssfi.o
+OBJS = err.o log.o ssfi.o
 
 CPPFLAGS += -std=c++11
 ifeq ($(BUILD_MODE),debug)

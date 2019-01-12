@@ -1,9 +1,11 @@
 #include "log.h"
 
+#include <stdarg.h>
+
 #include <iostream>
 #include <string>
 
-extern int log_inner(FILE* stream, const char* file, const char* func,
+int log_inner(FILE* stream, const char* file, const char* func,
         const int& line, const char* format, ...) {
     va_list args;
     int ret = 0;
