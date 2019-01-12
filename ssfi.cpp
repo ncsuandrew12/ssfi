@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
     } catch (const SSFI_Ex& e) {
         e.err();
     } catch (const std::invalid_argument& e) {
-        ERR("%s thrown: %s\n", typeid(e).name(), e.what());
+        LOG_ERR("%s thrown: %s\n", typeid(e).name(), e.what());
     }
     return 0;
 }
