@@ -16,18 +16,14 @@ class SSFI_Ex: public std::exception {
 
 public:
     explicit SSFI_Ex(const char* file, const int& line, const char* func,
-            std::exception* cause);
+            const char* what, const char* format, ...);
     explicit SSFI_Ex(const char* file, const int& line, const char* func,
-            std::exception* cause, const char* format, ...);
-    explicit SSFI_Ex(const char* what, const char* file, const int& line,
-            const char* func, const char* format, ...);
-    explicit SSFI_Ex(const char* what, const char* file, const int& line,
-            const char* func, std::exception* cause, const char* format, ...);
+            std::exception* cause, const char* what, const char* format, ...);
 
     virtual ~SSFI_Ex();
-    void err() const noexcept;
-    std::string msg() const noexcept;
-    void print(FILE* file) const noexcept;
+    void err() const;
+    std::string msg() const;
+    void print(FILE* file) const;
     const char * what() const noexcept;
 };
 

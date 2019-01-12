@@ -6,13 +6,19 @@
 
 #include "util.h"
 
+#ifdef SSFI_DEBUG
 extern int flogv(FILE* stream, const char* file, const int& line,
         const char* func, const char* format, ...);
 extern int flog(FILE* stream, const char* file, const int& line,
         const char* func, const char* format, va_list args);
+
 extern void log(const char* file, const int& line, const char* func,
         const char* format, ...);
 extern void log_err(const char* file, const int& line, const char* func,
         const char* format, ...);
+#else
+#define log(...)
+#define log_err(...)
+#endif
 
 #endif /* LOG_H_ */

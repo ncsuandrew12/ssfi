@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 
+#ifdef SSFI_DEBUG
 int flogv(FILE* stream, const char* file, const int& line, const char* func,
         const char* format, ...) {
     va_list args;
@@ -17,14 +18,11 @@ int flogv(FILE* stream, const char* file, const int& line, const char* func,
 
 int flog(FILE* stream, const char* file,
         const int& line, const char* func, const char* format, va_list args) {
-#ifdef SSFI_DEBUG
     std::string str;
     str.append(printf_to_string(LOC_PRINTF, file, line, func));
     str.append(format);
+    str.append("\n");
     return vfprintf(stream, str.c_str(), args);
-#else
-    return 0;
-#endif
 }
 
 void log(const char* file, const int& line, const char* func,
@@ -42,3 +40,4 @@ void log_err(const char* file, const int& line, const char* func,
     flog(stderr, file, line, func, format, args);
     va_end(args);
 }
+#endif
