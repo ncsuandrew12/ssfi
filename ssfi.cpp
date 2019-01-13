@@ -21,6 +21,8 @@ enum class RetCode {
 
 void process_path(std::list<std::string> files, std::string path);
 
+std::string suffix = std::string(".txt");
+
 int main(int argc, char **argv) {
     RetCode ret = RetCode::SUCCESS;
 
@@ -100,24 +102,30 @@ void process_path(std::list<std::string> files, std::string path) {
             struct dirent *de;
             while ((de = readdir(dir)) != nullptr) {
 
-                if ((std::string(de->d_name).compare(".") == 0)
-                        || (std::string(de->d_name).compare("..") == 0)) {
+                std::string name = std::string(de->d_name);
+                if ((name.compare(".") == 0) || (name.compare("..") == 0)) {
                     continue;
                 }
 
-                std::string subdir_path = std::string(path);
-                subdir_path.append("/");
-                subdir_path.append(de->d_name);
+                std::string sub_path = std::string(path);
+                sub_path.append("/");
+                sub_path.append(de->d_name);
 
-                log(LOC, "child path: %s", subdir_path.c_str());
+                log(LOC, "child path: %s", sub_path.c_str());
 
-                process_path(files, subdir_path);
+                process_path(files, sub_path);
             }
 
         } else {
 
-            log(LOC, "found file %s", path.c_str());
-            files.push_back(path);
+            if ((path.length() >= suffix.length())
+                    && (path.compare(path.length() - suffix.length(),
+                            suffix.length(), suffix) == 0)) {
+                log(LOC, "found .txt file: %s", path.c_str());
+                files.push_back(path);
+            } else {
+                log(LOC, "skipping non-txt file: %s", path.c_str());
+            }
 
         }
 
