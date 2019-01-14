@@ -1,3 +1,4 @@
 *.o
+script-out-*.txt
 
 ssfi
