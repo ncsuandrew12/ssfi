@@ -7,6 +7,7 @@
 #include <string>
 
 class SSFI_Ex: public std::exception {
+private:
     std::exception* _cause;
     const char* _file;
     const char* _func;
