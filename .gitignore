@@ -1,4 +1,5 @@
 *.o
 
-script-out.txt
 ssfi
+
+test/script-out.txt
