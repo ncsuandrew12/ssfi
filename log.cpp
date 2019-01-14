@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 
+#ifdef SSFI_DEBUG
 int flog(FILE* stream, const char* file,
         const int& line, const char* func, const char* format, va_list args) {
     std::string str;
@@ -16,7 +17,6 @@ int flog(FILE* stream, const char* file,
     return vfprintf(stream, str.c_str(), args);
 }
 
-#ifdef SSFI_DEBUG
 int flogv(FILE* stream, const char* file, const int& line, const char* func,
         const char* format, ...) {
     va_list args;

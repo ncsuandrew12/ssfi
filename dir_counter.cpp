@@ -71,6 +71,7 @@ void Dir_Counter::run() {
 
         std::map<std::string, long> words;
 
+        SSFI_Ex* ex = nullptr;
         int iter_no = 1;
         for (auto iter = counters.begin(); iter != counters.end(); iter++) {
             log(LOC, "joining worker thread %d", iter_no++);
@@ -78,15 +79,24 @@ void Dir_Counter::run() {
 
             for (auto wi = (*iter)->_words.begin(); wi != (*iter)->_words.end();
                     wi++) {
-//                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(), words[wi->first.c_str()], wi->second);
+                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
+                        words[wi->first.c_str()], wi->second);
                 words[wi->first.c_str()] += wi->second;
+            }
+
+            if ((*iter)->_err != nullptr) {
+                if (ex == nullptr) {
+                    ex = (*iter)->_err;
+                } else {
+                    delete (*iter)->_err;
+                }
             }
         }
 
         std::vector<std::string> most_common;
         const int mcl = 10;
         for (auto wi = words.begin(); wi != words.end(); wi++) {
-//            log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
+            log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
             bool inserted = false;
             for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
                 if (wi->second > words[*mci]) {

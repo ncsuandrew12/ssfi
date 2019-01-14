@@ -5,10 +5,12 @@
 #include <string>
 #include <thread>
 
+#include "err.h"
 #include "dir_counter.h"
 
 class Counter {
 public:
+    SSFI_Ex* _err = nullptr;
     const int _id;
     std::thread _thread;
     std::map<std::string, long> _words;

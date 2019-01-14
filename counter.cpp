@@ -27,14 +27,10 @@ void Counter::process_file(std::string path) {
     Reader reader(&stream);
 
     while (reader >> word) {
-//        log(LOC, "found word \"%s\" in file: %s", word.c_str(), path.c_str());
+        log(LOC, "found word \"%s\" in file: %s", word.c_str(), path.c_str());
         _words[word]++;
         word.clear();
     }
-
-//    for (auto wi = _words.begin(); wi != _words.end(); wi++) {
-//        log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
-//    }
 }
 
 void Counter::run() {
@@ -61,10 +57,12 @@ void Counter::run() {
     } catch (const SSFI_Ex& e) {
         log_err(LOC, "%s thrown:", typeid(e).name());
         e.err(); // TODO
-        // RetCode::SSFI;
+        _err = new SSFI_Ex(LOC, (std::exception*) nullptr,
+                (const char*) e.what(), "%s", e.msg().c_str());
     } catch (const std::exception& e) {
-        log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what()); // TODO
-        // RetCode::GENERIC;
+        log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
+        _err = new SSFI_Ex(LOC, (std::exception*) nullptr,
+                (const char*) e.what(), (const char*) nullptr);
     }
 
     log(LOC, "worker %d: ending", _id);
