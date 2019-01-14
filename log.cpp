@@ -7,15 +7,6 @@
 #include <thread>
 
 #ifdef SSFI_DEBUG
-int flog(FILE* stream, const char* file,
-        const int& line, const char* func, const char* format, va_list args) {
-    std::string str;
-    str.append(printf_to_string("T%d ", std::this_thread::get_id()));
-    str.append(printf_to_string(LOC_PRINTF, file, line, func));
-    str.append(format);
-    str.append("\n");
-    return vfprintf(stream, str.c_str(), args);
-}
 
 int flogv(FILE* stream, const char* file, const int& line, const char* func,
         const char* format, ...) {
@@ -35,6 +26,18 @@ void log(const char* file, const int& line, const char* func,
     va_end(args);
 }
 
+#endif
+
+int flog(FILE* stream, const char* file,
+        const int& line, const char* func, const char* format, va_list args) {
+    std::string str;
+    str.append(printf_to_string("T%d ", std::this_thread::get_id()));
+    str.append(printf_to_string(LOC_PRINTF, file, line, func));
+    str.append(format);
+    str.append("\n");
+    return vfprintf(stream, str.c_str(), args);
+}
+
 void log_err(const char* file, const int& line, const char* func,
         const char* format, ...) {
     va_list args;
@@ -42,4 +45,3 @@ void log_err(const char* file, const int& line, const char* func,
     flog(stderr, file, line, func, format, args);
     va_end(args);
 }
-#endif
