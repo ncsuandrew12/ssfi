@@ -15,13 +15,13 @@ endif
 all:	ssfi
 
 ssfi:	$(OBJS)
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ -pthread $^
 
 %.o:	$(PROJECT_ROOT)%.cpp
-	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
+	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -o $@ -pthread $<
 
 %.o:	$(PROJECT_ROOT)%.c
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ -pthread $<
 
 clean:
 	rm -fr ssfi $(OBJS)

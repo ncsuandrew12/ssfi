@@ -2,11 +2,14 @@
 
 #include <dirent.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include <iostream>
 #include <list>
+#include <mutex>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <typeinfo>
 #include <vector>
 
@@ -19,8 +22,13 @@ enum class RetCode {
     GENERIC = 0x02
 };
 
-void process_path(std::list<std::string> files, std::string path);
+void filer(std::string dir_path);
 
+void worker(const int& id);
+
+std::list<std::string> files;
+bool fin = false;
+std::mutex mx;
 std::string suffix = std::string(".txt");
 
 int main(int argc, char **argv) {
@@ -47,14 +55,14 @@ int main(int argc, char **argv) {
                             "%s: %s: Error parsing value for option \"%s\": \"%s\". Value must be number.",
                             typeid(e).name(), e.what(), argv[i], argv[i + 1]);
                 }
-            } else if (dir_arg == "") {
+            } else if (dir_arg.empty()) {
                 dir_arg = std::string(argv[i]);
             } else {
                 log(LOC, "Ignoring extraneous arg #%d: %s", i, argv[i]);
             }
         }
 
-        if (dir_arg == "") {
+        if (dir_arg.empty()) {
             throw SSFI_Ex(LOC,
                     new std::invalid_argument("No target directory provided"),
                     (const char*) nullptr, (const char*) nullptr);
@@ -63,8 +71,32 @@ int main(int argc, char **argv) {
         log(LOC, "worker threads: %d", worker_threads);
         log(LOC, "target directory: %s", dir_arg.c_str());
 
-        std::list<std::string> files;
-        process_path(files, dir_arg);
+        std::list<std::thread> workers;
+        for (int i = 1; i <= worker_threads; i++) {
+            log(LOC, "launching worker thread %d", i);
+            std::thread tworker {worker, i};
+            workers.push_back(move(tworker));
+        }
+
+        log(LOC, "launching filer thread");
+        std::thread tfiler {filer, dir_arg};
+
+        log(LOC, "joining filer thread");
+        tfiler.join();
+        log(LOC, "joined filer thread");
+
+        std::unique_lock<std::mutex> lck {mx};
+        log(LOC, "signaling completion");
+        fin = true;
+        lck.unlock();
+
+        int iter_no = 1;
+        for (auto iter = workers.begin(); iter != workers.end(); iter++ ) {
+            log(LOC, "joining worker thread %d", iter_no++);
+            (*iter).join();
+        }
+
+        log(LOC, "Done.");
 
     } catch (const SSFI_Ex& e) {
         log_err(LOC, "%s thrown:", typeid(e).name());
@@ -78,7 +110,7 @@ int main(int argc, char **argv) {
     return static_cast<int>(ret);
 }
 
-void process_path(std::list<std::string> files, std::string path) {
+void filer(std::string path) {
     DIR *dir = nullptr;
 
     try {
@@ -113,20 +145,20 @@ void process_path(std::list<std::string> files, std::string path) {
 
                 log(LOC, "child path: %s", sub_path.c_str());
 
-                process_path(files, sub_path);
+                filer(sub_path);
             }
 
+        } else if ((path.length() >= suffix.length())
+                && (path.compare(path.length() - suffix.length(),
+                        suffix.length(), suffix) == 0)) {
+            log(LOC, "found .txt file: %s", path.c_str());
+
+            std::unique_lock<std::mutex> lck {mx};
+            log(LOC, "pushing file: %s", path.c_str());
+            files.push_back(move(path));
+            lck.unlock();
         } else {
-
-            if ((path.length() >= suffix.length())
-                    && (path.compare(path.length() - suffix.length(),
-                            suffix.length(), suffix) == 0)) {
-                log(LOC, "found .txt file: %s", path.c_str());
-                files.push_back(path);
-            } else {
-                log(LOC, "skipping non-txt file: %s", path.c_str());
-            }
-
+            log(LOC, "skipping non-txt file: %s", path.c_str());
         }
 
         closedir(dir);
@@ -137,5 +169,34 @@ void process_path(std::list<std::string> files, std::string path) {
         throw e;
     }
 
+}
+
+void worker(const int& id) {
+    log(LOC, "worker %d: starting", id);
+
+    std::string file;
+    bool process_file = false;
+    bool wl = true;
+
+    do {
+
+        process_file = false;
+        std::unique_lock<std::mutex> lck { mx };
+        if (!files.empty()) {
+            process_file = true;
+            file.assign(files.front());
+            files.pop_front();
+        } else {
+            wl = !fin;
+        }
+        lck.unlock();
+
+        if (process_file) {
+            log(LOC, "processing file: %s", file.c_str());
+            //sleep(3);
+        }
+    } while (wl);
+
+    log(LOC, "worker %d: ending", id);
 }
 
