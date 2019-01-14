@@ -1,27 +1,33 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
+BIN = $PROJECT_ROOT/bin
+SRC = $PROJECT_ROOT/src
+
 OBJS = counter.o dir_counter.o err.o log.o reader.o ssfi.o util.o
 
 CPPFLAGS += -std=c++11
 ifeq ($(BUILD_MODE),debug)
 	CFLAGS += -g
 	CFLAGS += -D SSFI_DEBUG
-else ifeq ($(BUILD_MODE),run)
+else
 	CFLAGS += -O2
-#else
-#	$(error Build mode $(BUILD_MODE) not supported by this Makefile)
 endif
 
-all:	ssfi
+all:	directories ssfi
 
-ssfi:	$(OBJS)
+directories: bin
+
+bin:
+	mkdir -p $@
+
+ssfi:	$(addprefix bin/, $(OBJS))
 	$(CXX) -o $@ -pthread $^
 
-%.o:	$(PROJECT_ROOT)%.cpp
+bin/%.o:	src/%.cpp
 	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -o $@ -pthread $<
 
-%.o:	$(PROJECT_ROOT)%.c
+bin/%.o:	src/%.c
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ -pthread $<
 
 clean:
-	rm -fr ssfi $(OBJS)
+	rm -rf ssfi bin
