@@ -78,13 +78,33 @@ void Dir_Counter::run() {
 
             for (auto wi = (*iter)->_words.begin(); wi != (*iter)->_words.end();
                     wi++) {
-                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(), words[wi->first.c_str()], wi->second);
+//                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(), words[wi->first.c_str()], wi->second);
                 words[wi->first.c_str()] += wi->second;
             }
         }
 
+        std::vector<std::string> most_common;
+        const int mcl = 10;
         for (auto wi = words.begin(); wi != words.end(); wi++) {
-            log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
+//            log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
+            bool inserted = false;
+            for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
+                if (wi->second > words[*mci]) {
+                    inserted = true;
+                    most_common.insert(mci, wi->first.c_str());
+                    break;
+                }
+            }
+            if (!inserted && most_common.size() < mcl) {
+                most_common.push_back(wi->first.c_str());
+            }
+            while (most_common.size() > mcl) {
+                most_common.pop_back();
+            }
+        }
+        for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
+            log(LOC, "word \"%s\": %d instances", (*mci).c_str(), words[*mci]);
+            printf("%s %d\n", (*mci).c_str(), words[*mci]);
         }
 
         while (!counters.empty()) {
