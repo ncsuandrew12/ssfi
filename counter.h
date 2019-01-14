@@ -11,6 +11,7 @@ class Counter {
 public:
     const int _id;
     std::thread _thread;
+    std::map<std::string, long> _words;
 
     Counter(const int& id, Dir_Counter* dc);
     void join();
@@ -18,7 +19,6 @@ public:
 
 private:
     Dir_Counter* _dc;
-    std::map<std::string, long> _words;
 
     void process_file(std::string path);
 };

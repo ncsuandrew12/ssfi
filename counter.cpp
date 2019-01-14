@@ -27,10 +27,14 @@ void Counter::process_file(std::string path) {
     Reader reader(&stream);
 
     while (reader >> word) {
-        log(LOC, "found word \"%s\" in file: %s", word.c_str(), path.c_str());
+//        log(LOC, "found word \"%s\" in file: %s", word.c_str(), path.c_str());
         _words[word]++;
         word.clear();
     }
+
+//    for (auto wi = _words.begin(); wi != _words.end(); wi++) {
+//        log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
+//    }
 }
 
 void Counter::run() {

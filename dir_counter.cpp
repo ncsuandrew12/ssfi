@@ -69,10 +69,22 @@ void Dir_Counter::run() {
             throw e;
         }
 
+        std::map<std::string, long> words;
+
         int iter_no = 1;
         for (auto iter = counters.begin(); iter != counters.end(); iter++) {
             log(LOC, "joining worker thread %d", iter_no++);
             (*iter)->join();
+
+            for (auto wi = (*iter)->_words.begin(); wi != (*iter)->_words.end();
+                    wi++) {
+                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(), words[wi->first.c_str()], wi->second);
+                words[wi->first.c_str()] += wi->second;
+            }
+        }
+
+        for (auto wi = words.begin(); wi != words.end(); wi++) {
+            log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
         }
 
         while (!counters.empty()) {
