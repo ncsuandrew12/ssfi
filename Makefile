@@ -1,8 +1,5 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-BIN = $PROJECT_ROOT/bin
-SRC = $PROJECT_ROOT/src
-
 OBJS = counter.o dir_counter.o log.o reader.o ssfi.o ssfi_ex.o util.o
 
 CPPFLAGS += -std=c++11
