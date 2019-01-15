@@ -10,11 +10,12 @@
 
 class Counter {
 public:
-    Ssfi_Ex* _err = nullptr;
+    Ssfi_Ex _err;
     const int _id;
-    std::thread _thread;
+    std::thread* _thread;
     std::map<std::string, long> _words;
 
+    Counter(const Counter& dc);
     Counter(const int& id, Dir_Counter* dc);
     ~Counter();
 
