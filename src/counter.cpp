@@ -5,12 +5,12 @@
 #include <string>
 #include <thread>
 
-#include "err.h"
 #include "dir_counter.h"
 #include "log.h"
 #include "reader.h"
+#include "ssfi_ex.h"
 
-Counter::Counter(const int& id, Dir_Counter* dc): _id(id), _dc(dc) {
+Counter::Counter(const int& id, Dir_Counter* dc): _id(id), _dir_cnt(dc) {
     _thread = std::thread( [this] { this->run(); } );
 }
 
@@ -44,30 +44,28 @@ void Counter::run() {
 
     try {
         std::string file;
-        bool fin = false;
-        bool wl = true;
+        bool done = false;
+        bool active = true;
         _words.clear();
 
         do {
             file.clear();
 
-            fin = _dc->pop_file(&file);
+            done = _dir_cnt->pop_file(&file);
 
             if (!file.empty()) {
                 process_file(file);
             } else {
-                wl = !fin;
+                active = !done;
             }
-        } while (wl);
+        } while (active);
 
-    } catch (const SSFI_Ex& e) {
+    } catch (const Ssfi_Ex& e) {
         e.err(LOC);
-        _err = new SSFI_Ex(LOC, (std::exception*) nullptr,
-                (const char*) e.what(), "%s", e.msg().c_str());
+        _err = new Ssfi_Ex(LOC, (const char*) e.what(), "%s", e.msg().c_str());
     } catch (const std::exception& e) {
         log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
-        _err = new SSFI_Ex(LOC, (std::exception*) nullptr,
-                (const char*) e.what(), (const char*) nullptr);
+        _err = new Ssfi_Ex(LOC, (const char*) e.what(), (const char*) nullptr);
     }
 
     log(LOC, "worker %d: ending", _id);

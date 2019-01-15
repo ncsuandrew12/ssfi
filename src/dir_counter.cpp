@@ -1,26 +1,16 @@
 #include "dir_counter.h"
 
+#include <asm-generic/errno-base.h>
 #include <dirent.h>
 #include <errno.h>
 #include <stdio.h>
 #include <sys/stat.h>
-#include <unistd.h>
-
-#include <iostream>
-#include <list>
+#include <iterator>
 #include <map>
-#include <utility>
-#include <mutex>
-#include <stdexcept>
-#include <string>
-#include <thread>
-#include <typeinfo>
 #include <vector>
 
-#include "err.h"
 #include "counter.h"
 #include "log.h"
-#include "reader.h"
 
 Dir_Counter::Dir_Counter(const Dir_Counter& dc) :
         _dir_path(dc._dir_path), _err(dc._err), _files(dc._files), _fin(
@@ -41,7 +31,7 @@ void Dir_Counter::run() {
     log(LOC, "target directory: %s", _dir_path.c_str());
 
     std::list<Counter*> counters;
-    SSFI_Ex* ex = nullptr;
+    Ssfi_Ex* ex = nullptr;
     try {
         log(LOC, "launching filer thread");
         std::thread tfiler = std::thread([this] {this->filer();});
@@ -151,30 +141,25 @@ bool Dir_Counter::pop_file(std::string* file) {
 void Dir_Counter::filer() {
     try {
         filer(_dir_path);
-    } catch (const SSFI_Ex& e) {
-        _err = new SSFI_Ex(LOC, (std::exception*) nullptr, e.what(), "%s",
-                e.summary().c_str());
+    } catch (const Ssfi_Ex& e) {
+        _err = new Ssfi_Ex(LOC, e.what(), "%s", e.summary().c_str());
     } catch (const std::exception& e) {
-        _err = new SSFI_Ex(LOC, (std::exception*) nullptr, e.what(), "%s",
-                e.what());
+        _err = new Ssfi_Ex(LOC, e.what(), "%s", e.what());
     }
 }
 
 void Dir_Counter::filer(std::string path) {
     DIR *dir = nullptr;
 
-    // Slow this down so there's some interleaving with the processing.
-//    usleep(100 * 10); // TODO delete
-
     try {
 
         struct stat file_info;
         if (stat(path.c_str(), &file_info) == -1) {
             if (errno == ENOENT) {
-                throw SSFI_Ex(LOC, (const char*) nullptr,
+                throw Ssfi_Ex(LOC, (const char*) nullptr,
                         "Path does not exist: \"%s\"", path.c_str());
             }
-            throw SSFI_Ex(LOC, (const char*) nullptr, "Error stat-ing \"%s\"",
+            throw Ssfi_Ex(LOC, (const char*) nullptr, "Error stat-ing \"%s\"",
                     path.c_str());
         }
 
@@ -184,7 +169,7 @@ void Dir_Counter::filer(std::string path) {
 
             dir = opendir(path.c_str());
             if (dir == nullptr) {
-                throw SSFI_Ex(LOC, (const char*) nullptr,
+                throw Ssfi_Ex(LOC, (const char*) nullptr,
                         "Error opening directory \"%s\"", path.c_str());
             }
 
@@ -224,7 +209,7 @@ void Dir_Counter::filer(std::string path) {
         }
 
         closedir(dir);
-    } catch (const SSFI_Ex& e) {
+    } catch (const Ssfi_Ex& e) {
         if (dir != nullptr) {
             closedir(dir);
         }

@@ -5,12 +5,12 @@
 #include <string>
 #include <thread>
 
-#include "err.h"
 #include "dir_counter.h"
+#include "ssfi_ex.h"
 
 class Counter {
 public:
-    SSFI_Ex* _err = nullptr;
+    Ssfi_Ex* _err = nullptr;
     const int _id;
     std::thread _thread;
     std::map<std::string, long> _words;
@@ -22,7 +22,7 @@ public:
     void run();
 
 private:
-    Dir_Counter* _dc;
+    Dir_Counter* _dir_cnt;
 
     void process_file(std::string path);
 };

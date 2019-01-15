@@ -5,8 +5,8 @@
 #include <typeinfo>
 
 #include "dir_counter.h"
-#include "err.h"
 #include "log.h"
+#include "ssfi_ex.h"
 #include "util.h"
 
 int main(int argc, char **argv) {
@@ -19,19 +19,16 @@ int main(int argc, char **argv) {
         for (int i = 1; i < argc; i++) {
             if (std::string(argv[i]) == "-t") {
                 if (i >= argc - 1) {
-                    throw SSFI_Ex(LOC,
-                            new std::invalid_argument("no value provided"),
-                            (const char*) nullptr,
+                    throw Ssfi_Ex(LOC, "No value provided",
                             "No value provided for \"%s\"", argv[i]);
                 }
                 try {
                     worker_threads = std::stoi(argv[i + 1]);
                     i++; // Skip over value to next option.
-                } catch (std::invalid_argument e) {
-                    throw SSFI_Ex(LOC, new std::invalid_argument(e),
-                            (const char*) nullptr,
-                            "%s: %s: Error parsing value for option \"%s\": \"%s\". Value must be number.",
-                            typeid(e).name(), e.what(), argv[i], argv[i + 1]);
+                } catch (std::invalid_argument& e) {
+                    throw Ssfi_Ex(LOC, "Error parsing option value.",
+                            "Error parsing value for option \"%s\": \"%s\". Value must be number.",
+                            argv[i], argv[i + 1]);
                 }
             } else if (dir_arg.empty()) {
                 dir_arg = std::string(argv[i]);
@@ -41,23 +38,22 @@ int main(int argc, char **argv) {
         }
 
         if (dir_arg.empty()) {
-            throw SSFI_Ex(LOC,
-                    new std::invalid_argument("No target directory provided"),
-                    (const char*) nullptr, (const char*) nullptr);
+            throw Ssfi_Ex(LOC, "No target directory provided",
+                    (const char*) nullptr);
         }
 
         Dir_Counter(worker_threads, dir_arg).run();
 
         log(LOC, "Done.");
 
-    } catch (SSFI_Ex* e) {
+    } catch (Ssfi_Ex* e) {
         e->err(LOC);
         ret = RetCode::ERR_GENERIC;
-    } catch (const SSFI_Ex& e) {
+    } catch (const Ssfi_Ex& e) {
         e.err(LOC);
         ret = RetCode::ERR_GENERIC;
     } catch (const std::exception& e) {
-        log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
+        log_err(LOC, e);
         ret = RetCode::ERR_GENERIC;
     }
 

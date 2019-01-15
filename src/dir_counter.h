@@ -5,7 +5,7 @@
 #include <string>
 #include <mutex>
 
-#include "err.h"
+#include "ssfi_ex.h"
 #include "util.h"
 
 class Dir_Counter {
@@ -22,7 +22,7 @@ public:
 private:
     std::list<std::string> _files;
     bool _fin = false;
-    SSFI_Ex* _err = nullptr;
+    Ssfi_Ex* _err = nullptr;
     std::mutex* _mx;
     std::string _suffix = std::string(".txt");
     const int _workers;
