@@ -3,8 +3,9 @@
 #include <stdarg.h>
 
 #include <memory>
-#include <typeinfo>
 #include <string>
+#include <typeinfo>
+#include <thread>
 
 #include "util.h"
 
@@ -46,19 +47,15 @@ SSFI_Ex::~SSFI_Ex() {
     }
 }
 
-void SSFI_Ex::err() const {
-    print(stderr);
+void SSFI_Ex::err(const char* file, const int& line, const char* func) const {
+    print(stderr, file, line, func);
 }
 
 std::string SSFI_Ex::msg() const {
     std::string ret;
     ret.append(printf_to_string("%s: ", typeid(this).name()));
-    if (_msg.empty()) {
-        ret.append(_what);
-    } else if (_what != nullptr) {
-        ret.append(_msg.c_str());
-    }
-    ret.append("\n\t\tat");
+    ret.append(summary());
+    ret.append("\n\t\tat ");
     ret.append(printf_to_string(LOC_PRINTF, _file, _line, _func));
     if (_cause != nullptr) {
         ret.append("\n\tcaused by: ");
@@ -73,8 +70,23 @@ std::string SSFI_Ex::msg() const {
     return ret;
 }
 
-void SSFI_Ex::print(FILE* file) const {
-    fprintf(file, "%s\n", msg().c_str());
+void SSFI_Ex::print(FILE* f, const char* file, const int& line,
+        const char* func) const {
+#ifdef SSFI_DEBUG
+    fprintf(f, "T%d %s:%d(%s) %s\n", std::this_thread::get_id(), file, line,
+            func, msg().c_str());
+#else
+    fprintf(f, "%s\n", summary().c_str());
+#endif
+}
+
+std::string SSFI_Ex::summary() const {
+    if (!_msg.empty()) {
+        return _msg;
+    } else if (_what != nullptr) {
+        return std::string(_what);
+    }
+    return "Unknown error occurred.";
 }
 
 const char* SSFI_Ex::what() const noexcept {

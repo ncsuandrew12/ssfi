@@ -16,6 +16,8 @@ public:
     std::map<std::string, long> _words;
 
     Counter(const int& id, Dir_Counter* dc);
+    ~Counter();
+
     void join();
     void run();
 

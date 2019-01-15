@@ -1,8 +1,8 @@
 #include "dir_counter.h"
 
-#include <stdio.h>
-
 #include <dirent.h>
+#include <errno.h>
+#include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -22,15 +22,9 @@
 #include "log.h"
 #include "reader.h"
 
-enum class RetCode {
-    SUCCESS = 0x00,
-    SSFI = 0x01,
-    GENERIC = 0x02
-};
-
 Dir_Counter::Dir_Counter(const Dir_Counter& dc) :
-        _dir_path(dc._dir_path), _files(dc._files), _fin(dc._fin), _mx(dc._mx), _workers(
-                dc._workers) {
+        _dir_path(dc._dir_path), _err(dc._err), _files(dc._files), _fin(
+                dc._fin), _mx(dc._mx), _workers(dc._workers) {
 }
 
 Dir_Counter::Dir_Counter(const int& workers, std::string dir_path) :
@@ -47,31 +41,30 @@ void Dir_Counter::run() {
     log(LOC, "target directory: %s", _dir_path.c_str());
 
     std::list<Counter*> counters;
+    SSFI_Ex* ex = nullptr;
     try {
+        log(LOC, "launching filer thread");
+        std::thread tfiler = std::thread([this] {this->filer();});
+
         for (int i = 1; i <= _workers; i++) {
             log(LOC, "launching worker thread %d", i);
             counters.push_back(new Counter(i, this));
         }
 
-        log(LOC, "launching filer thread");
-        std::thread tfiler = std::thread([this] {this->filer();});
-
         log(LOC, "joining filer thread");
         tfiler.join();
 
-        std::unique_lock<std::mutex> lck { *_mx };
-        try {
-            log(LOC, "signaling completion");
-            _fin = true;
-            lck.unlock();
-        } catch (const std::exception& e) {
-            lck.unlock();
-            throw e;
+        if (_err != nullptr) {
+            ex = _err;
         }
+
+        log(LOC, "signaling completion");
+        std::unique_lock <std::mutex> lck { *_mx };
+        _fin = true;
+        lck.unlock();
 
         std::map<std::string, long> words;
 
-        SSFI_Ex* ex = nullptr;
         int iter_no = 1;
         for (auto iter = counters.begin(); iter != counters.end(); iter++) {
             log(LOC, "joining worker thread %d", iter_no++);
@@ -91,6 +84,10 @@ void Dir_Counter::run() {
                     delete (*iter)->_err;
                 }
             }
+        }
+
+        if (ex != nullptr) {
+            throw ex;
         }
 
         std::vector<std::string> most_common;
@@ -122,6 +119,9 @@ void Dir_Counter::run() {
             counters.pop_front();
         }
     } catch (const std::exception& e) {
+        if (ex != nullptr) {
+            delete ex;
+        }
         while (!counters.empty()) {
             delete counters.front();
             counters.pop_front();
@@ -149,7 +149,15 @@ bool Dir_Counter::pop_file(std::string* file) {
 }
 
 void Dir_Counter::filer() {
-    filer(_dir_path);
+    try {
+        filer(_dir_path);
+    } catch (const SSFI_Ex& e) {
+        _err = new SSFI_Ex(LOC, (std::exception*) nullptr, e.what(), "%s",
+                e.summary().c_str());
+    } catch (const std::exception& e) {
+        _err = new SSFI_Ex(LOC, (std::exception*) nullptr, e.what(), "%s",
+                e.what());
+    }
 }
 
 void Dir_Counter::filer(std::string path) {
@@ -162,6 +170,10 @@ void Dir_Counter::filer(std::string path) {
 
         struct stat file_info;
         if (stat(path.c_str(), &file_info) == -1) {
+            if (errno == ENOENT) {
+                throw SSFI_Ex(LOC, (const char*) nullptr,
+                        "Path does not exist: \"%s\"", path.c_str());
+            }
             throw SSFI_Ex(LOC, (const char*) nullptr, "Error stat-ing \"%s\"",
                     path.c_str());
         }
@@ -212,6 +224,11 @@ void Dir_Counter::filer(std::string path) {
         }
 
         closedir(dir);
+    } catch (const SSFI_Ex& e) {
+        if (dir != nullptr) {
+            closedir(dir);
+        }
+        throw e;
     } catch (const std::exception& e) {
         if (dir != nullptr) {
             closedir(dir);

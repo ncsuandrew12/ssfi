@@ -4,6 +4,11 @@
 #include <memory>
 #include <string>
 
+enum class RetCode {
+    SUCCESS     = 0x00,
+    ERR_GENERIC = 0x01
+};
+
 int printf_len(const size_t& size, const char* format, va_list args);
 
 extern int printf_len(const char* format, va_list args);

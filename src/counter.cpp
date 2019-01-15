@@ -14,8 +14,14 @@ Counter::Counter(const int& id, Dir_Counter* dc): _id(id), _dc(dc) {
     _thread = std::thread( [this] { this->run(); } );
 }
 
+Counter::~Counter() {
+    join();
+}
+
 void Counter::join() {
-    _thread.join();
+    if (_thread.joinable()) {
+        _thread.join();
+    }
 }
 
 void Counter::process_file(std::string path) {
@@ -55,8 +61,7 @@ void Counter::run() {
         } while (wl);
 
     } catch (const SSFI_Ex& e) {
-        log_err(LOC, "%s thrown:", typeid(e).name());
-        e.err(); // TODO
+        e.err(LOC);
         _err = new SSFI_Ex(LOC, (std::exception*) nullptr,
                 (const char*) e.what(), "%s", e.msg().c_str());
     } catch (const std::exception& e) {

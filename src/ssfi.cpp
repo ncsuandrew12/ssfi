@@ -7,12 +7,7 @@
 #include "dir_counter.h"
 #include "err.h"
 #include "log.h"
-
-enum class RetCode {
-    SUCCESS = 0x00,
-    SSFI = 0x01,
-    GENERIC = 0x02
-};
+#include "util.h"
 
 int main(int argc, char **argv) {
     RetCode ret = RetCode::SUCCESS;
@@ -55,13 +50,15 @@ int main(int argc, char **argv) {
 
         log(LOC, "Done.");
 
+    } catch (SSFI_Ex* e) {
+        e->err(LOC);
+        ret = RetCode::ERR_GENERIC;
     } catch (const SSFI_Ex& e) {
-        log_err(LOC, "%s thrown:", typeid(e).name());
-        e.err();
-        ret = RetCode::SSFI;
+        e.err(LOC);
+        ret = RetCode::ERR_GENERIC;
     } catch (const std::exception& e) {
         log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
-        ret = RetCode::GENERIC;
+        ret = RetCode::ERR_GENERIC;
     }
 
     return static_cast<int>(ret);

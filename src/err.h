@@ -22,9 +22,11 @@ public:
             std::exception* cause, const char* what, const char* format, ...);
 
     virtual ~SSFI_Ex();
-    void err() const;
+    void err(const char* file, const int& line, const char* func) const;
     std::string msg() const;
-    void print(FILE* file) const;
+    void print(FILE* f, const char* file, const int& line,
+            const char* func) const;
+    std::string summary() const;
     const char * what() const noexcept;
 };
 
