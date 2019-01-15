@@ -25,8 +25,8 @@ Counter::~Counter() {
 }
 
 void Counter::join() {
-    if (*_thread.joinable()) {
-        *_thread.join();
+    if (_thread->joinable()) {
+        _thread->join();
     }
 }
 

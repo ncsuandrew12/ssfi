@@ -16,6 +16,9 @@ int main(int argc, char **argv) {
         int worker_threads = 1;
         std::string path_arg;
 
+        /*
+         * Parse CLI options.
+         */
         for (int i = 1; i < argc; i++) {
             if (std::string(argv[i]) == "-t") {
                 if (i >= argc - 1) {
@@ -42,6 +45,9 @@ int main(int argc, char **argv) {
                     (const char*) nullptr);
         }
 
+        /*
+         * Run the logic.
+         */
         Dir_Counter(worker_threads, path_arg).run();
 
         log(LOC, "Done.");
