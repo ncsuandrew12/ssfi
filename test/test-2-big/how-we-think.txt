@@ -1,4 +1,4 @@
-﻿The Project Gutenberg EBook of How We Think, by John Dewey
+The Project Gutenberg EBook of How We Think, by John Dewey
 
 This eBook is for the use of anyone anywhere at no cost and with
 almost no restrictions whatsoever.  You may copy it, give it away or
@@ -90,7 +90,7 @@ book were inspired, and through whose work in connection with the
 Laboratory School, existing in Chicago between 1896 and 1903, the ideas
 attained such concreteness as comes from embodiment and testing in
 practice. It is a pleasure, also, to acknowledge indebtedness to the
-intelligence and sympathy of those who coöperated as teachers and
+intelligence and sympathy of those who cooperated as teachers and
 supervisors in the conduct of that school, and especially to Mrs. Ella
 Flagg Young, then a colleague in the University, and now Superintendent
 of the Schools of Chicago.
@@ -171,7 +171,7 @@ CHAPTER ONE
 WHAT IS THOUGHT?
 
 
-§ 1. _Varied Senses of the Term_
+S 1. _Varied Senses of the Term_
 
 [Sidenote: Four senses of thought, from the wider to the limited]
 
@@ -337,7 +337,7 @@ of thought may elicit this type; but once begun, it is a conscious and
 voluntary effort to establish belief upon a firm basis of reasons.
 
 
-§ 2. _The Central Factor in Thinking_
+S 2. _The Central Factor in Thinking_
 
 [Sidenote: There is a common element in all types of thought:]
 
@@ -427,7 +427,7 @@ confirmed and come to stand as sure, but in itself it always has a
 certain element of supposition.
 
 
-§ 3. _Elements in Reflective Thinking_
+S 3. _Elements in Reflective Thinking_
 
 So much for the description of the more external and obvious aspects of
 the fact called _thinking_. Further consideration at once reveals
@@ -520,7 +520,7 @@ given city. _The problem fixes the end of thought_ and _the end controls
 the process of thinking_.
 
 
-§ 4. _Summary_
+S 4. _Summary_
 
 [Sidenote: Origin and stimulus]
 
@@ -591,7 +591,7 @@ thought is important, for an answer to this question will throw light
 upon the kind of training thought requires if it is to subserve its end.
 
 
-§ 1. _The Values of Thought_
+S 1. _The Values of Thought_
 
 [Sidenote: The possibility of deliberate and intentional activity]
 
@@ -718,10 +718,10 @@ accordingly_.... As they do this well or ill, so they discharge well or
 ill the duties of their several callings. _It is the only occupation in
 which the mind never ceases to be engaged._"[3]
 
-    [3] Mill, _System of Logic_, Introduction, § 5.
+    [3] Mill, _System of Logic_, Introduction, S 5.
 
 
-§ 2. _Importance of Direction in order to Realize these Values_
+S 2. _Importance of Direction in order to Realize these Values_
 
 [Sidenote: Thinking goes astray]
 
@@ -763,7 +763,7 @@ animal, limited to instinct, cannot sink.
     [4] Locke, _Of the Conduct of the Understanding_, first paragraph.
 
 
-§ 3. _Tendencies Needing Constant Regulation_
+S 3. _Tendencies Needing Constant Regulation_
 
 [Sidenote: Physical and social sanctions of correct thinking]
 
@@ -830,7 +830,7 @@ It is instructive to note some of the attempts that have been made to
 classify the main sources of error in reaching beliefs. Francis Bacon,
 for example, at the beginnings of modern scientific inquiry, enumerated
 four such classes, under the somewhat fantastic title of "idols" (Gr.
-[Greek: eidôla], images), spectral forms that allure the mind into false
+[Greek: eidola], images), spectral forms that allure the mind into false
 paths. These he called the idols, or phantoms, of the (_a_) tribe, (_b_)
 the marketplace, (_c_) the cave or den, and (_d_) the theater; or, less
 metaphorically, (_a_) standing erroneous methods (or at least
@@ -893,7 +893,7 @@ the different scope that has been given to their understandings to range
 in, for the gathering up of information and furnishing their heads with
 ideas and notions and observations, whereon to employ their mind."[6]
 
-    [6] _The Conduct of the Understanding_, § 3.
+    [6] _The Conduct of the Understanding_, S 3.
 
 In another portion of his writings,[7] Locke states the same ideas in
 slightly different form.
@@ -971,7 +971,7 @@ must also fortify the mind against irrational tendencies current in the
 social environment, and help displace erroneous habits already produced.
 
 
-§ 4. _Regulation Transforms Inference into Proof_
+S 4. _Regulation Transforms Inference into Proof_
 
 [Sidenote: A leap is involved in all thinking]
 
@@ -1100,7 +1100,7 @@ these two conditions are fulfilled, the ideas suggested are incoherent
 and fantastic, rather than pertinent and consistent.
 
 
-§ 1. _Curiosity_
+S 1. _Curiosity_
 
 [Sidenote: Desire for fullness of experience:]
 
@@ -1199,12 +1199,12 @@ With respect then to curiosity, the teacher has usually more to learn
 than to teach. Rarely can he aspire to the office of kindling or even
 increasing it. His task is rather to keep alive the sacred spark of
 wonder and to fan the flame that already glows. His problem is to
-protect the spirit of inquiry, to keep it from becoming blasé from
+protect the spirit of inquiry, to keep it from becoming blase from
 overexcitement, wooden from routine, fossilized through dogmatic
 instruction, or dissipated by random exercise upon trivial things.
 
 
-§ 2. _Suggestion_
+S 2. _Suggestion_
 
 Out of the subject-matter, whether rich or scanty, important or trivial,
 of present experience issue suggestions, ideas, beliefs as to what is
@@ -1374,7 +1374,7 @@ manipulation of laboratory apparatus, the mastery of a musical
 composition, or the conduct of a business affair, may do for another.
 
 
-§ 3. _Orderliness: Its Nature_
+S 3. _Orderliness: Its Nature_
 
 [Sidenote: Continuity]
 
@@ -1461,7 +1461,7 @@ no such fixity of status and pursuit; there is almost nothing to dictate
 that such and such a consecutive line of action, rather than another,
 should be followed, while the will of others, his own caprice, and
 circumstances about him tend to produce an isolated momentary act. The
-absence of continued motivation coöperates with the inner plasticity of
+absence of continued motivation cooperates with the inner plasticity of
 the immature to increase the importance of educational training and the
 difficulties in the way of finding consecutive modes of activities which
 may do for child and youth what serious vocations and functions do for
@@ -1529,7 +1529,7 @@ CHAPTER FOUR
 SCHOOL CONDITIONS AND THE TRAINING OF THOUGHT
 
 
-§ 1. _Introductory: Methods and Conditions_
+S 1. _Introductory: Methods and Conditions_
 
 [Sidenote: Formal discipline]
 
@@ -1588,7 +1588,7 @@ in contact; (2) the subjects studied; (3) current educational aims and
 ideals.
 
 
-§ 2. _Influence of the Habits of Others_
+S 2. _Influence of the Habits of Others_
 
 Bare reference to the imitativeness of human nature is enough to suggest
 how profoundly the mental habits of others affect the attitude of the
@@ -1694,7 +1694,7 @@ approved by the teacher, and their standard of success be successful
 adaptation to the requirements of another.
 
 
-§ 3. _Influence of the Nature of Studies_
+S 3. _Influence of the Nature of Studies_
 
 [Sidenote: Types of studies]
 
@@ -1792,7 +1792,7 @@ the mere bulk of their learning, because memory, rather than thinking,
 has been operative in obtaining it.
 
 
-§4. _The Influence of Current Aims and Ideals_
+S4. _The Influence of Current Aims and Ideals_
 
 It is, of course, impossible to separate this somewhat intangible
 condition from the points just dealt with; for automatic skill and
@@ -1857,7 +1857,7 @@ CHAPTER FIVE
 THE MEANS AND END OF MENTAL TRAINING: THE PSYCHOLOGICAL AND THE LOGICAL
 
 
-§ 1. _Introductory: The Meaning of Logical_
+S 1. _Introductory: The Meaning of Logical_
 
 [Sidenote: Special topic of this chapter]
 
@@ -1965,7 +1965,7 @@ external subject-matter. To produce this conformity, the study should
 first be analyzed (by text-book or teacher) into its logical elements;
 then each of these elements should be defined; finally, all of the
 elements should be arranged in series or classes according to logical
-formulæ or general principles. Then the pupil learns the definitions one
+formule or general principles. Then the pupil learns the definitions one
 by one; and progressively adding one to another builds up the logical
 system, and thereby is himself gradually imbued, from without, with
 logical quality.
@@ -2006,7 +2006,7 @@ Even when this method in its extreme form is not followed, few schools
 (especially of the middle or upper elementary grades) are free from an
 exaggerated attention to forms supposedly employed by the pupil if he
 gets his result logically. It is thought that there are certain steps
-arranged in a certain order, which express preëminently an understanding
+arranged in a certain order, which express preeminently an understanding
 of the subject, and the pupil is made to "analyze" his procedure into
 these steps, _i.e._ to learn a certain routine formula of statement.
 While this method is usually at its height in grammar and arithmetic, it
@@ -2087,7 +2087,7 @@ last, in presenting an ingrained disposition and attitude, is then as
 _psychological_ (as personal) as any caprice or chance impulse could be.
 
 
-§ 2. _Discipline and Freedom_
+S 2. _Discipline and Freedom_
 
 [Sidenote: True and false notions of discipline]
 
@@ -2573,7 +2573,7 @@ CHAPTER SEVEN
 SYSTEMATIC INFERENCE: INDUCTION AND DEDUCTION
 
 
-§ 1. _The Double Movement of Reflection_
+S 1. _The Double Movement of Reflection_
 
 [Sidenote: Back and forth between facts and meanings]
 
@@ -2738,7 +2738,7 @@ discovery, the development, and the testing of meanings are
 scientifically carried on.
 
 
-§ 2. _Guidance of the Inductive Movement_
+S 2. _Guidance of the Inductive Movement_
 
 [Sidenote: Guidance is indirect]
 
@@ -2769,7 +2769,7 @@ others_ (_the operations supplying the raw data_) proceed.
 
 Given the facts _A B C D_ on one side and certain individual habits on
 the other, suggestion occurs automatically. But if the facts _A B C D_
-are carefully looked into and thereby resolved into the facts _A´ B´´ R
+are carefully looked into and thereby resolved into the facts _A B R
 S_, a suggestion will automatically present itself different from that
 called up by the facts in their first form. To inventory the facts, to
 describe exactly and minutely their respective traits, to magnify
@@ -2851,7 +2851,7 @@ paleness means lowered temperature. The clinical thermometer records
 automatically the actual temperature and hence checks up the habitual
 associations that might lead to error in a given case. All the
 instrumentalities of observation--the various -meters and -graphs
-and -scopes--fill a part of their scientific rôle in helping to eliminate
+and -scopes--fill a part of their scientific role in helping to eliminate
 meanings supplied because of habit, prejudice, the strong momentary
 preoccupation of excitement and anticipation, and by the vogue of
 existing theories. Photographs, phonographs, kymographs, actinographs,
@@ -2946,7 +2946,7 @@ to write down any exception he noted or thought of--as otherwise it was
 almost sure to be forgotten.
 
 
-§ 3. _Experimental Variation of Conditions_
+S 3. _Experimental Variation of Conditions_
 
 [Sidenote: Experiment the typical method of introducing contrast
 factors]
@@ -3031,7 +3031,7 @@ combination of the three types of selecting and arranging subject-matter
 just described.
 
 
-§ 4. _Guidance of the Deductive Movement_
+S 4. _Guidance of the Deductive Movement_
 
 [Sidenote: Value of deduction for guiding induction]
 
@@ -3098,7 +3098,7 @@ conditions, which under certain other conditions implies another, and so
 on. In this way, various substitutions of equivalents are possible, and
 reasoning can trace out, without having recourse to specific
 observations, very remote consequences of any suggested principle.
-Definition, general formulæ, and classification are the devices by which
+Definition, general formule, and classification are the devices by which
 the fixation and elaboration of a meaning into its detailed
 ramifications are carried on. They are not ends in themselves--as they
 are frequently regarded even in elementary education--but
@@ -3122,7 +3122,7 @@ the degree to which they become working tools in the creation and
 development of new experiences.
 
 
-§ 5. _Some Educational Bearings of the Discussion_
+S 5. _Some Educational Bearings of the Discussion_
 
 [Sidenote: Educational counterparts of false logical theories]
 
@@ -3253,7 +3253,7 @@ CHAPTER EIGHT
 JUDGMENT: THE INTERPRETATION OF FACTS
 
 
-§ 1. _The Three Factors of Judging_
+S 1. _The Three Factors of Judging_
 
 [Sidenote: Good judgment]
 
@@ -3415,7 +3415,7 @@ conceptions thus goes on simultaneously with the determination of the
 facts; one possible meaning after another is held before the mind,
 considered in relation to the data to which it is applied, is developed
 into its more detailed bearings upon the data, is dropped or tentatively
-accepted and used. We do not approach any problem with a wholly naïve or
+accepted and used. We do not approach any problem with a wholly naive or
 virgin mind; we approach it with certain acquired habitual modes of
 understanding, with a certain store of previously evolved meanings, or
 at least of experiences from which meanings may be educed. If the
@@ -3460,7 +3460,7 @@ meanings get _standardized_, they become logical concepts (see below, p.
 118).
 
 
-§ 2. _The Origin and Nature of Ideas_
+S 2. _The Origin and Nature of Ideas_
 
 [Sidenote: Ideas are conjectures employed in judging]
 
@@ -3565,7 +3565,7 @@ in geometry.
     [20] See Ward, _Psychic Factors of Civilization_, p. 153.
 
 
-§ 3. _Analysis and Synthesis_
+S 3. _Analysis and Synthesis_
 
 [Sidenote: Judging clears up things: analysis]
 
@@ -3660,7 +3660,7 @@ formulated statement should follow naturally. But because teachers find
 that the things which they themselves best understand are marked off and
 defined in clear-cut ways, our schoolrooms are pervaded with the
 superstition that children are to begin with already crystallized
-formulæ of method.
+formule of method.
 
 [Sidenote: Judgment reveals the bearing or significance of facts:
 synthesis]
@@ -3726,7 +3726,7 @@ CHAPTER NINE
 MEANING: OR CONCEPTIONS AND UNDERSTANDING
 
 
-§ 1. _The Place of Meanings in Mental Life_
+S 1. _The Place of Meanings in Mental Life_
 
 [Sidenote: Meaning is central]
 
@@ -3824,9 +3824,9 @@ is roundabout and delayed.
 
 Most languages have two sets of words to express these two modes of
 understanding; one for the direct taking in or grasp of meaning, the
-other for its circuitous apprehension, thus: [Greek: gnônai] and
+other for its circuitous apprehension, thus: [Greek: gnonai] and
 [Greek: eidenai] in Greek; _noscere_ and _scire_ in Latin; _kennen_ and
-_wissen_ in German; _connaître_ and _savoir_ in French; while in English
+_wissen_ in German; _connatre_ and _savoir_ in French; while in English
 to be _acquainted with_ and to _know of or about_ have been suggested as
 equivalents.[22] Now our intellectual life consists of a peculiar
 interaction between these two types of understanding. All judgment, all
@@ -3874,7 +3874,7 @@ _ap_prehension--with indirect, mediated understanding--technically
 called _com_prehension.
 
 
-§ 2. _The Process of Acquiring Meanings_
+S 2. _The Process of Acquiring Meanings_
 
 [Sidenote: Familiarity]
 
@@ -4017,7 +4017,7 @@ constancy, stability, consistency, or takes it out of the fluctuating
 and wavering.
 
 
-§ 3. _Conceptions and Meaning_
+S 3. _Conceptions and Meaning_
 
 [Sidenote: A conception is a definite meaning]
 
@@ -4073,7 +4073,7 @@ of the past have learned about the paths and structure of comets becomes
 available capital with which to interpret the speck of light. Finally,
 this comet-meaning is itself not isolated; it is a related portion of
 the whole system of astronomic knowledge. Suns, planets, satellites,
-nebulæ, comets, meteors, star dust--all these conceptions have a certain
+nebule, comets, meteors, star dust--all these conceptions have a certain
 mutuality of reference and interaction, and when the speck of light is
 identified as meaning a comet, it is at once adopted as a full member in
 this vast kingdom of beliefs.
@@ -4096,7 +4096,7 @@ science) indicates how scientific notions make explicit the
 systematizing tendency involved in all use of concepts.
 
 
-§ 4. _What Conceptions are Not_
+S 4. _What Conceptions are Not_
 
 The idea that a conception is a meaning that supplies a standard rule
 for the identification and placing of particulars may be contrasted with
@@ -4157,7 +4157,7 @@ is not a matter of mechanical addition, but of application of something
 discovered in one case to bring other cases into line.
 
 
-§ 5. _Definition and Organization of Meanings_
+S 5. _Definition and Organization of Meanings_
 
 [Sidenote: Definiteness _versus_ vagueness]
 
@@ -4525,7 +4525,7 @@ organically and gradually an interest in geometric and mechanical
 problems. The interest in cooking should grow into an interest in
 chemical experimentation and in the physiology and hygiene of bodily
 growth. The making of pictures should pass to an interest in the
-technique of representation and the æsthetics of appreciation, and so
+technique of representation and the esthetics of appreciation, and so
 on. This development is what the term _go_ signifies in the maxim "_go_
 from the concrete to the abstract"; it represents the dynamic and truly
 educative factor of the process.
@@ -4625,7 +4625,7 @@ CHAPTER ELEVEN
 EMPIRICAL AND SCIENTIFIC THINKING
 
 
-§ 1. _Empirical Thinking_
+S 1. _Empirical Thinking_
 
 [Sidenote: Empirical thinking depends on past habits]
 
@@ -4769,7 +4769,7 @@ are mixed with fantastic conceptions that happen to have won the
 acceptance of authorities.
 
 
-§ 2. _Scientific Method_
+S 2. _Scientific Method_
 
 [Sidenote: Scientific thinking analyzes the present case]
 
@@ -4988,7 +4988,7 @@ might be defined as just such an emancipation and enlargement of
 experience. Education takes the individual while he is relatively
 plastic, before he has become so indurated by isolated experiences as to
 be rendered hopelessly empirical in his habit of mind. The attitude of
-childhood is naïve, wondering, experimental; the world of man and nature
+childhood is naive, wondering, experimental; the world of man and nature
 is new. Right methods of education preserve and perfect this attitude,
 and thereby short-circuit for the individual the slow progress of the
 race, eliminating the waste that comes from inert routine.
@@ -5013,7 +5013,7 @@ not with exactness, the order of development in the unfolding human
 being.
 
 
-§ 1. _The Early Stage of Activity_
+S 1. _The Early Stage of Activity_
 
 [Sidenote: 1. The baby's problem determines his thinking]
 
@@ -5030,7 +5030,7 @@ that instinctive tendencies are much less perfect in men, and that most
 of them are of little use till they are intelligently combined and
 directed. A little chick just out of the shell will after a few trials
 peck at and grasp grains of food with its beak as well as at any later
-time. This involves a complicated coördination of the eye and the head.
+time. This involves a complicated coordination of the eye and the head.
 An infant does not even begin to reach definitely for things that the
 eye sees till he is several months old, and even then several weeks'
 practice is required before he learns the adjustment so as neither to
@@ -5117,7 +5117,7 @@ conclude that it was acquired by imitation, while as a matter of fact it
 was acquired by attention, observation, selection, experimentation, and
 confirmation by results. Only because this method is employed is there
 intellectual discipline and an educative result. The presence of adult
-activities plays an enormous rôle in the intellectual growth of the
+activities plays an enormous role in the intellectual growth of the
 child because they add to the natural stimuli of the world new stimuli
 which are more exactly adapted to the needs of a human being, which are
 richer, better organized, more complex in range, permitting more
@@ -5126,7 +5126,7 @@ these stimuli the child follows the same methods that he uses when he is
 forced to think in order to master his body.
 
 
-§ 2. _Play, Work, and Allied Forms of Activity_
+S 2. _Play, Work, and Allied Forms of Activity_
 
 [Sidenote: Play indicates the domination of activity by meanings or
 ideas]
@@ -5156,7 +5156,7 @@ rarely lose all touch with the mutual fitness and pertinency of various
 meanings to one another; the "freest" plays observe some principles of
 coherence and unification. They have a beginning, middle, and end. In
 games, rules of order run through various minor acts and bind them into
-a connected whole. The rhythm, the competition, and coöperation involved
+a connected whole. The rhythm, the competition, and cooperation involved
 in most plays and games also introduce organization. There is, then,
 nothing mysterious or mystical in the discovery made by Plato and remade
 by Froebel that play is the chief, almost the only, mode of education
@@ -5260,7 +5260,7 @@ matters of home and neighborhood interest is depreciated as merely
 utilitarian. To let the child wash dishes, set the table, engage in
 cooking, cut and sew dolls' clothes, make boxes that will hold "real
 things," and construct his own playthings by using hammer and nails,
-excludes, so it is said, the æsthetic and appreciative factor,
+excludes, so it is said, the esthetic and appreciative factor,
 eliminates imagination, and subjects the child's development to material
 and practical concerns; while (so it is said) to reproduce symbolically
 the domestic relationships of birds and other animals, of human father
@@ -5324,7 +5324,7 @@ quality of mind that goes into the doing settles what is utilitarian and
 what is unconstrained and educative.
 
 
-§ 3. _Constructive Occupations_
+S 3. _Constructive Occupations_
 
 [Sidenote: The historic growth of sciences out of occupations]
 
@@ -5347,7 +5347,7 @@ the fruits of science.
 [Sidenote: The intellectual possibilities of school occupations]
 
 These facts are full of educational significance. Most children are
-preëminently active in their tendencies. The schools have also taken
+preeminently active in their tendencies. The schools have also taken
 on--largely from utilitarian, rather than from strictly educative
 reasons--a large number of active pursuits commonly grouped under the
 head of manual training, including also school gardens, excursions, and
@@ -5367,7 +5367,7 @@ subjects may be taught by routine, by dictation, or by convention as
 readily as bookish subjects. But intelligent consecutive work in
 gardening, cooking, or weaving, or in elementary wood and iron, may be
 planned which will inevitably result in students not only amassing
-information of practical and scientific importance in botany, zoölogy,
+information of practical and scientific importance in botany, zoology,
 chemistry, physics, and other sciences, but (what is more significant)
 in their becoming versed in methods of experimental inquiry and proof.
 
@@ -5389,7 +5389,7 @@ CHAPTER THIRTEEN
 LANGUAGE AND THE TRAINING OF THOUGHT
 
 
-§ 1. _Language as the Tool of Thinking_
+S 1. _Language as the Tool of Thinking_
 
 [Sidenote: Ambiguous position of language]
 
@@ -5570,7 +5570,7 @@ systematizations of the race shows how thoroughly accustomed we have
 become to its logical distinctions and groupings.
 
 
-§ 2. _The Abuse of Linguistic Methods in Education_
+S 2. _The Abuse of Linguistic Methods in Education_
 
 [Sidenote: Teaching merely things, not educative]
 
@@ -5602,7 +5602,7 @@ this attempt, a tendency only too prevalent in education, reformers have
 protested. Moreover, there is a tendency to assume that whenever there
 is a definite word or form of speech there is also a definite idea;
 while, as a matter of fact, adults and children alike are capable of
-using even precise verbal formulæ with only the vaguest and most
+using even precise verbal formule with only the vaguest and most
 confused sense of what they mean. Genuine ignorance is more profitable
 because likely to be accompanied by humility, curiosity, and
 open-mindedness; while ability to repeat catch-phrases, cant terms,
@@ -5622,7 +5622,7 @@ the human mind on the level of the attainments of the past, to prevent
 new inquiry and discovery, to put the authority of tradition in place of
 the authority of natural facts and laws, to reduce the individual to a
 parasite living on the secondhand experience of others--these things
-have been the source of the reformers' protest against the preëminence
+have been the source of the reformers' protest against the preeminence
 assigned to language in schools.
 
 [Sidenote: Words as mere stimuli]
@@ -5647,14 +5647,14 @@ require conscious interpretation. Nevertheless, the premium put in the
 schoolroom upon attainment of technical facility, upon skill in
 producing external results (_ante_, p. 51), often changes this advantage
 into a positive detriment. In manipulating symbols so as to recite well,
-to get and give correct answers, to follow prescribed formulæ of
+to get and give correct answers, to follow prescribed formule of
 analysis, the pupil's attitude becomes mechanical, rather than
 thoughtful; verbal memorizing is substituted for inquiry into the
 meaning of things. This danger is perhaps the one uppermost in mind when
 verbal methods of education are attacked.
 
 
-§ 3. _The Use of Language in its Educational Bearings_
+S 3. _The Use of Language in its Educational Bearings_
 
 Language stands in a twofold relation to the work of education. On the
 one hand, it is continually used in all studies as well as in all the
@@ -5947,7 +5947,7 @@ in books or speech) are rightly conducted, half the logical battle is
 won, for they are the channels of obtaining subject-matter.
 
 
-§ 1. _The Nature and Value of Observation_
+S 1. _The Nature and Value of Observation_
 
 [Sidenote: Fallacy of making "facts" an end in themselves]
 
@@ -5979,17 +5979,17 @@ there is a feeling of lack of acquaintance until some direct contact is
 made. This demand for fuller and closer knowledge is quite different
 from any conscious interest in observation for its own sake. Desire for
 expansion, for "self-realization," is its motive. The interest is
-sympathetic, socially and æsthetically sympathetic, rather than
+sympathetic, socially and esthetically sympathetic, rather than
 cognitive. While the interest is especially keen in children (because
 their actual experience is so small and their possible experience so
 large), it still characterizes adults when routine has not blunted its
 edge. This sympathetic interest provides the medium for carrying and
 binding together what would otherwise be a multitude of items, diverse,
 disconnected, and of no intellectual use. These systems are indeed
-social and æsthetic rather than consciously intellectual; but they
+social and esthetic rather than consciously intellectual; but they
 provide the natural medium for more conscious intellectual explorations.
 Some educators have recommended that nature study in the elementary
-schools be conducted with a love of nature and a cultivation of æsthetic
+schools be conducted with a love of nature and a cultivation of esthetic
 appreciation in view rather than in a purely analytic spirit. Others
 have urged making much of the care of animals and plants. Both of these
 important recommendations have grown out of experience, not out of
@@ -6078,7 +6078,7 @@ uninteresting dead work or of acquiring forms of technical skill that
 are not available as intellectual resources.
 
 
-§ 2. _Methods and Materials of Observation in the Schools_ The best
+S 2. _Methods and Materials of Observation in the Schools_ The best
 methods in use in our schools furnish many suggestions for giving
 observation its right place in mental training.
 
@@ -6097,7 +6097,7 @@ observation is concerned with mastering the unknown. The common notions
 that perception is like writing on a blank piece of paper, or like
 impressing an image on the mind as a seal is imprinted on wax or as a
 picture is formed on a photographic plate (notions that have played a
-disastrous rôle in educational methods), arise from a failure to
+disastrous role in educational methods), arise from a failure to
 distinguish between automatic recognition and the searching attitude of
 genuine observation.
 
@@ -6125,7 +6125,7 @@ of what is present to the sense, but just what is doubtful. The plot is
 unfolding toward success or failure, but just when or how is uncertain.
 Hence the keen and tense observation of conditions and results that
 attends constructive manual operations. Where the subject-matter is of a
-more impersonal sort, the same principle of movement toward a dénouement
+more impersonal sort, the same principle of movement toward a denouement
 may apply. It is a commonplace that what is moving attracts notice when
 that which is at rest escapes it. Yet too often it would almost seem as
 if pains had been taken to deprive the material of school observations
@@ -6147,7 +6147,7 @@ extraordinary interest that children take in planting seeds and watching
 the stages of their growth is due to the fact that a drama is enacting
 before their eyes; there is something doing, each step of which is
 important in the destiny of the plant. The great practical improvements
-that have occurred of late years in the teaching of botany and zoölogy
+that have occurred of late years in the teaching of botany and zoology
 will be found, upon inspection, to involve treating plants and animals
 as beings that act, that do something, instead of as mere inert
 specimens having static properties to be inventoried, named, and
@@ -6175,7 +6175,7 @@ isolated peculiarities of structure.
 [Sidenote: Scientific observation]
 
 III. As the center of interest of observations becomes less personal,
-less a matter of means for effecting one's own ends, and less æsthetic,
+less a matter of means for effecting one's own ends, and less esthetic,
 less a matter of contribution of parts to a total emotional effect,
 observation becomes more consciously intellectual in quality. Pupils
 learn to observe for the sake (_i_) of finding out what sort of
@@ -6213,7 +6213,7 @@ avoiding the impression (that so often accrues) that the facts studied
 are peculiar to the laboratory.
 
 
-§ 3. _Communication of Information_
+S 3. _Communication of Information_
 
 [Sidenote: Importance of hearsay acquaintance]
 
@@ -6284,7 +6284,7 @@ stirring in the student's own experience, or that is not presented in
 such a way as to arouse a problem, is worse than useless for
 intellectual purposes. In that it fails to enter into any process of
 reflection, it is useless; in that it remains in the mind as so much
-lumber and débris, it is a barrier, an obstruction in the way of
+lumber and debris, it is a barrier, an obstruction in the way of
 effective thinking when a problem arises.
 
 [Sidenote: and to prior systems of experience]
@@ -6346,7 +6346,7 @@ indispensable incident--in the process of cultivating a thoughtful
 attitude.
 
 
-§ 1. _The Formal Steps of Instruction_
+S 1. _The Formal Steps of Instruction_
 
 [Sidenote: Herbart's analysis of method of teaching]
 
@@ -6491,7 +6491,7 @@ to comprehend it, and thereby to obstruct the logic of the student's own
 mind.
 
 
-§ 2. _The Factors in the Recitation_
+S 2. _The Factors in the Recitation_
 
 Bearing in mind that the formal steps represent intertwined factors of a
 student's progress and not mileposts on a beaten highway, we may
@@ -6734,7 +6734,7 @@ which constantly tend to become so isolated that they work against each
 other instead of cooperating to make reflective inquiry efficient.
 
 
-§ 1. _The Unconscious and the Conscious_
+S 1. _The Unconscious and the Conscious_
 
 [Sidenote: The _understood_ as the unconsciously assumed]
 
@@ -6826,7 +6826,7 @@ should alternate. Unconsciousness gives spontaneity and freshness;
 consciousness, conviction and control.
 
 
-§ 2. _Process and Product_
+S 2. _Process and Product_
 
 [Sidenote: Play and work again]
 
@@ -6924,7 +6924,7 @@ saying is historically correct, it suggests that harmony of mental
 playfulness and seriousness describes the artistic ideal. When the
 artist is preoccupied overmuch with means and materials, he may achieve
 wonderful technique, but not the artistic spirit _par excellence_. When
-the animating idea is in excess of the command of method, æsthetic
+the animating idea is in excess of the command of method, esthetic
 feeling may be indicated, but the art of presentation is too defective
 to express the feeling thoroughly. When the thought of the end becomes
 so adequate that it compels translation into the means that embody it,
@@ -6956,7 +6956,7 @@ ruts. To nurture inspiring aim and executive means into harmony with
 each other is at once the difficulty and the reward of the teacher.
 
 
-§ 3. _The Far and the Near_
+S 3. _The Far and the Near_
 
 [Sidenote: "Familiarity breeds contempt,"]
 
