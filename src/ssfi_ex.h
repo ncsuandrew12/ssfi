@@ -15,11 +15,14 @@ private:
     const char* _what;
 
 public:
-    explicit Ssfi_Ex(const char* file, const int& line, const char* func,
+    Ssfi_Ex();
+    Ssfi_Ex(const Ssfi_Ex& other);
+    Ssfi_Ex(const char* file, const int& line, const char* func,
             const char* what, const char* format, ...);
 
     void err(const char* file, const int& line, const char* func) const;
     std::string msg() const;
+    Ssfi_Ex& operator=(const Ssfi_Ex& other);
     void print(FILE* f, const char* file, const int& line,
             const char* func) const;
     std::string summary() const;

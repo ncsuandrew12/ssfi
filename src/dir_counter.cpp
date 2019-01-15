@@ -1,6 +1,5 @@
 #include "dir_counter.h"
 
-#include <asm-generic/errno-base.h>
 #include <dirent.h>
 #include <errno.h>
 #include <stdio.h>
@@ -13,8 +12,8 @@
 #include "log.h"
 
 Dir_Counter::Dir_Counter(const Dir_Counter& dc) :
-        _dir_path(dc._dir_path), _err(dc._err), _files(dc._files), _fin(
-                dc._fin), _mx(dc._mx), _workers(dc._workers) {
+        _dir_path(dc._dir_path), _err(dc._err), _files(dc._files), _done(
+                dc._done), _mx(dc._mx), _workers(dc._workers) {
 }
 
 Dir_Counter::Dir_Counter(const int& workers, std::string dir_path) :
@@ -30,8 +29,7 @@ void Dir_Counter::run() {
     log(LOC, "worker threads: %d", _workers);
     log(LOC, "target directory: %s", _dir_path.c_str());
 
-    std::list<Counter*> counters;
-    Ssfi_Ex* ex = nullptr;
+    std::vector<Counter*> counters;
     try {
         log(LOC, "launching filer thread");
         std::thread tfiler = std::thread([this] {this->filer();});
@@ -44,13 +42,16 @@ void Dir_Counter::run() {
         log(LOC, "joining filer thread");
         tfiler.join();
 
+        bool err = false;
+        Ssfi_Ex ex;
         if (_err != nullptr) {
-            ex = _err;
+            err = true;
+            ex = *_err;
         }
 
         log(LOC, "signaling completion");
         std::unique_lock <std::mutex> lck { *_mx };
-        _fin = true;
+        _done = true;
         lck.unlock();
 
         std::map<std::string, long> words;
@@ -60,23 +61,24 @@ void Dir_Counter::run() {
             log(LOC, "joining worker thread %d", iter_no++);
             (*iter)->join();
 
-            for (auto wi = (*iter)->_words.begin(); wi != (*iter)->_words.end();
-                    wi++) {
-                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
-                        words[wi->first.c_str()], wi->second);
-                words[wi->first.c_str()] += wi->second;
-            }
-
-            if ((*iter)->_err != nullptr) {
-                if (ex == nullptr) {
-                    ex = (*iter)->_err;
-                } else {
-                    delete (*iter)->_err;
+            if (!err) {
+                for (auto wi = (*iter)->_words.begin();
+                        wi != (*iter)->_words.end(); wi++) {
+                    log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
+                            words[wi->first.c_str()], wi->second);
+                    words[wi->first.c_str()] += wi->second;
                 }
+
+                if ((*iter)->_err != nullptr) {
+                    err = true;
+                    ex = *((*iter)->_err);
+                }
+            } else if ((*iter)->_err != nullptr) {
+                delete (*iter)->_err;
             }
         }
 
-        if (ex != nullptr) {
+        if (err) {
             throw ex;
         }
 
@@ -99,29 +101,35 @@ void Dir_Counter::run() {
                 most_common.pop_back();
             }
         }
+        int mcii = 1;
         for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
-            log(LOC, "word \"%s\": %d instances", (*mci).c_str(), words[*mci]);
+            log(LOC, "word #%02d: \"%s\": %d instances", mcii, (*mci).c_str(),
+                    words[*mci]);
             printf("%s %d\n", (*mci).c_str(), words[*mci]);
+            mcii++;
         }
 
-        while (!counters.empty()) {
-            delete counters.front();
-            counters.pop_front();
+        for (auto iter = counters.begin(); iter != counters.end(); iter++) {
+            delete (*iter);
         }
+        counters.clear();
+    } catch (const Ssfi_Ex& e) {
+        for (auto iter = counters.begin(); iter != counters.end(); iter++) {
+            delete (*iter);
+        }
+        counters.clear();
+        throw e;
     } catch (const std::exception& e) {
-        if (ex != nullptr) {
-            delete ex;
+        for (auto iter = counters.begin(); iter != counters.end(); iter++) {
+            delete (*iter);
         }
-        while (!counters.empty()) {
-            delete counters.front();
-            counters.pop_front();
-        }
+        counters.clear();
         throw e;
     }
 }
 
 bool Dir_Counter::pop_file(std::string* file) {
-    bool fin = false;
+    bool done = false;
     std::unique_lock<std::mutex> lck { *_mx };
     try {
         if (!_files.empty()) {
@@ -129,9 +137,9 @@ bool Dir_Counter::pop_file(std::string* file) {
             log(LOC, "popped %s", file->c_str());
             _files.pop_front();
         }
-        fin = _fin;
+        done = _done;
         lck.unlock();
-        return fin;
+        return done;
     } catch (const std::exception& e) {
         lck.unlock();
         throw e;

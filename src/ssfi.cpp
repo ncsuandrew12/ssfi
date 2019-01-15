@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 
     try {
         int worker_threads = 1;
-        std::string dir_arg;
+        std::string path_arg;
 
         for (int i = 1; i < argc; i++) {
             if (std::string(argv[i]) == "-t") {
@@ -27,27 +27,28 @@ int main(int argc, char **argv) {
                     i++; // Skip over value to next option.
                 } catch (std::invalid_argument& e) {
                     throw Ssfi_Ex(LOC, "Error parsing option value.",
-                            "Error parsing value for option \"%s\": \"%s\". Value must be number.",
+                            "Error parsing value for option \"%s\": \"%s\". Value must be a number.",
                             argv[i], argv[i + 1]);
                 }
-            } else if (dir_arg.empty()) {
-                dir_arg = std::string(argv[i]);
+            } else if (path_arg.empty()) {
+                path_arg = std::string(argv[i]);
             } else {
                 log(LOC, "Ignoring extraneous arg #%d: %s", i, argv[i]);
             }
         }
 
-        if (dir_arg.empty()) {
-            throw Ssfi_Ex(LOC, "No target directory provided",
+        if (path_arg.empty()) {
+            throw Ssfi_Ex(LOC, "No path provided",
                     (const char*) nullptr);
         }
 
-        Dir_Counter(worker_threads, dir_arg).run();
+        Dir_Counter(worker_threads, path_arg).run();
 
         log(LOC, "Done.");
 
     } catch (Ssfi_Ex* e) {
         e->err(LOC);
+        delete e;
         ret = RetCode::ERR_GENERIC;
     } catch (const Ssfi_Ex& e) {
         e.err(LOC);

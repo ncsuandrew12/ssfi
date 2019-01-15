@@ -6,7 +6,6 @@
 #include <mutex>
 
 #include "ssfi_ex.h"
-#include "util.h"
 
 class Dir_Counter {
 public:
@@ -20,8 +19,8 @@ public:
     bool pop_file(std::string* file);
 
 private:
+    bool _done = false;
     std::list<std::string> _files;
-    bool _fin = false;
     Ssfi_Ex* _err = nullptr;
     std::mutex* _mx;
     std::string _suffix = std::string(".txt");

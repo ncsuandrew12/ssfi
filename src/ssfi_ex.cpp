@@ -1,12 +1,23 @@
 #include <stdarg.h>
 
-#include <memory>
 #include <string>
 #include <typeinfo>
 #include <thread>
 
 #include "ssfi_ex.h"
 #include "util.h"
+
+Ssfi_Ex::Ssfi_Ex() :
+        _file(nullptr), _func(nullptr), _line(0), _what(nullptr) {
+}
+
+Ssfi_Ex::Ssfi_Ex(const Ssfi_Ex& other) {
+    _file = other._file;
+    _func = other._func;
+    _line = other._line;
+    _msg = other._msg;
+    _what = other._what;
+}
 
 Ssfi_Ex::Ssfi_Ex(const char* file, const int& line, const char* func,
         const char* w, const char* format, ...) :
@@ -35,6 +46,15 @@ std::string Ssfi_Ex::msg() const {
     ret.append("\n\t\tat ");
     ret.append(printf_to_string(LOC_PRINTF, _file, _line, _func));
     return ret;
+}
+
+Ssfi_Ex& Ssfi_Ex::operator=(const Ssfi_Ex& other) {
+    _file = other._file;
+    _func = other._func;
+    _line = other._line;
+    _msg = other._msg;
+    _what = other._what;
+    return *this;
 }
 
 void Ssfi_Ex::print(FILE* f, const char* file, const int& line,
