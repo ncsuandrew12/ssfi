@@ -61,16 +61,23 @@ void Counter::run() {
             if (!file.empty()) {
                 process_file(file);
             } else {
+                /*
+                 * There aren't currently any files to process.
+                 *
+                 * If the indexer has indicated indexing is complete, then we're
+                 * done. Otherwise, wait until another file gets added or the
+                 * done flag gets set.
+                 */
                 active = !done;
             }
         } while (active);
 
     } catch (const Ssfi_Ex& e) {
         e.err(LOC);
-        _err(Ssfi_Ex(LOC, (const char*) e.what(), "%s", e.msg().c_str()));
+        _err = Ssfi_Ex(LOC, (const char*) e.what(), "%s", e.msg().c_str());
     } catch (const std::exception& e) {
         log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
-        _err(Ssfi_Ex(LOC, (const char*) e.what(), (const char*) nullptr));
+        _err = Ssfi_Ex(LOC, (const char*) e.what(), (const char*) nullptr);
     }
 
     log(LOC, "worker %d: ending", _id);
