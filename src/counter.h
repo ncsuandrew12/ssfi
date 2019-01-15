@@ -10,7 +10,8 @@
 
 class Counter {
 public:
-    Ssfi_Ex _err;
+    bool _err = false;
+    Ssfi_Ex _ex;
     const int _id;
     std::thread* _thread;
     std::map<std::string, long> _words;

@@ -12,7 +12,7 @@
 #include "log.h"
 
 Dir_Counter::Dir_Counter(const Dir_Counter& dc) :
-        _dir_path(dc._dir_path), _err(dc._err), _files(dc._files), _done(
+        _dir_path(dc._dir_path), _err(dc._err), _ex(dc._ex), _files(dc._files), _done(
                 dc._done), _mx(dc._mx), _workers(dc._workers) {
 }
 
@@ -47,9 +47,9 @@ void Dir_Counter::run() {
          */
         bool err = false;
         Ssfi_Ex ex;
-        if (_err != nullptr) {
+        if (_err) {
             err = true;
-            ex = *_err;
+            ex = _ex;
         }
 
         log(LOC, "signaling completion");
@@ -79,12 +79,10 @@ void Dir_Counter::run() {
                 /*
                  * Check for errors during the worker thread's execution.
                  */
-                if ((*iter)->_err != nullptr) {
+                if ((*iter)->_err) {
                     err = true;
-                    ex = *((*iter)->_err);
+                    ex = (*iter)->_ex;
                 }
-            } else if ((*iter)->_err != nullptr) {
-                delete (*iter)->_err;
             }
         }
 
@@ -191,9 +189,11 @@ void Dir_Counter::filer() {
     try {
         filer(_dir_path);
     } catch (const Ssfi_Ex& e) {
-        _err = new Ssfi_Ex(LOC, e.what(), "%s", e.summary().c_str());
+        _err = true;
+        _ex = Ssfi_Ex(LOC, e.what(), "%s", e.summary().c_str());
     } catch (const std::exception& e) {
-        _err = new Ssfi_Ex(LOC, e.what(), "%s", e.what());
+        _err = true;
+        _ex = Ssfi_Ex(LOC, e.what(), "%s", e.what());
     }
 }
 

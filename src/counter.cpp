@@ -11,8 +11,8 @@
 #include "ssfi_ex.h"
 
 Counter::Counter(const Counter& c) :
-        _dir_cnt(c._dir_cnt), _err(c._err), _id(c._id), _thread(c._thread), _words(
-                c._words) {
+        _dir_cnt(c._dir_cnt), _err(c._err), _ex(c._ex), _id(c._id), _thread(
+                c._thread), _words(c._words) {
 }
 
 Counter::Counter(const int& id, Dir_Counter* dc): _id(id), _dir_cnt(dc) {
@@ -74,10 +74,12 @@ void Counter::run() {
 
     } catch (const Ssfi_Ex& e) {
         e.err(LOC);
-        _err = Ssfi_Ex(LOC, (const char*) e.what(), "%s", e.msg().c_str());
+        _err = true;
+        _ex = Ssfi_Ex(LOC, (const char*) e.what(), "%s", e.msg().c_str());
     } catch (const std::exception& e) {
         log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
-        _err = Ssfi_Ex(LOC, (const char*) e.what(), (const char*) nullptr);
+        _err = true;
+        _ex = Ssfi_Ex(LOC, (const char*) e.what(), (const char*) nullptr);
     }
 
     log(LOC, "worker %d: ending", _id);

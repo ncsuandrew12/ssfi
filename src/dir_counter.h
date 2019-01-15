@@ -21,7 +21,8 @@ public:
 private:
     bool _done = false;
     std::list<std::string> _files;
-    Ssfi_Ex* _err = nullptr;
+    bool _err = false;
+    Ssfi_Ex _ex;
     std::mutex* _mx;
     std::string _suffix = std::string(".txt");
     const int _workers;
