@@ -138,21 +138,13 @@ void Dir_Counter::run() {
  * indexing is complete.
  */
 bool Dir_Counter::pop_file(std::string* file) {
-    bool done = false;
-    std::unique_lock<std::mutex> lck { *_mx };
-    try {
-        if (!_files.empty()) {
-            file->assign(_files.front());
-            log(LOC, "popped %s", file->c_str());
-            _files.pop_front();
-        }
-        done = _done;
-        lck.unlock();
-        return done;
-    } catch (const std::exception& e) {
-        lck.unlock();
-        throw e;
+    std::lock_guard<std::mutex> lck { *_mx };
+    if (!_files.empty()) {
+        file->assign(_files.front());
+        log(LOC, "popped %s", file->c_str());
+        _files.pop_front();
     }
+    return _done;
 }
 
 /*
