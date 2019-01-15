@@ -38,6 +38,16 @@ The program will print some error text and return a non-zero error code if any o
 
 Extraneous options will be silently ignored.
 
+Example command to demonstrate these errors:
+
+```
+[afelsher@localhost ssfi]$ ./ssfi ; ./ssfi -t ; ./ssfi -t a ; ./ssfi badpath
+Error: No path provided
+Error: No value provided for "-t"
+Error: Error parsing value for option "-t": "a". Value must be a number.
+Error: Path does not exist: "badpath"
+```
+
 # Output
 
 The program will print up to 10 of the most common words in the given file path. Each will be printed on a separate line, followed by the number of occurrences. If the provided path contains no words (for example, it points to an empty file), no output will be printed, but this is not considered an error.
