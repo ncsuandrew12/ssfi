@@ -164,7 +164,7 @@ void Dir_Counter::filer(std::string path) {
     DIR *dir = nullptr;
 
     // Slow this down so there's some interleaving with the processing.
-    usleep(100 * 10); // TODO delete
+//    usleep(100 * 10); // TODO delete
 
     try {
 
