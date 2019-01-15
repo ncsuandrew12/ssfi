@@ -17,14 +17,14 @@ public:
     std::map<std::string, long> _words;
 
     Counter(const Counter& dc);
-    Counter(const int& id, Dir_Counter* dc);
+    Counter(const int& id, Queue* dc);
     ~Counter();
 
     void join();
     void run();
 
 private:
-    Dir_Counter* _dir_cnt;
+    Queue* _files;
 
     void process_file(std::string path);
 };

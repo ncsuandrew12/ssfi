@@ -11,20 +11,15 @@
 #include "counter.h"
 #include "log.h"
 #include "pool.h"
+#include "queue.h"
 
 Dir_Counter::Dir_Counter(const Dir_Counter& other) :
-        _done(other._done), _dir_path(other._dir_path), _err(other._err), _ex(
-                other._ex), _files(other._files), _mx(other._mx), _workers(
-                other._workers) {
+        _dir_path(other._dir_path), _err(other._err), _ex(other._ex), _files(
+                other._files), _workers(other._workers) {
 }
 
 Dir_Counter::Dir_Counter(const int& workers, std::string dir_path) :
         _workers(workers), _dir_path(dir_path) {
-    _mx = new std::mutex();
-}
-
-Dir_Counter::~Dir_Counter() {
-    delete _mx;
 }
 
 void Dir_Counter::run() {
@@ -37,7 +32,7 @@ void Dir_Counter::run() {
     Pool pool;
     for (int i = 1; i <= _workers; i++) {
         log(LOC, "launching worker thread %d", i);
-        pool._counters.push_back(new Counter(i, this));
+        pool._counters.push_back(new Counter(i, &_files));
     }
 
     log(LOC, "joining filer thread");
@@ -54,9 +49,7 @@ void Dir_Counter::run() {
     }
 
     log(LOC, "signaling completion");
-    std::unique_lock < std::mutex > lck { *_mx };
-    _done = true;
-    lck.unlock();
+    _files.done();
 
     std::map<std::string, long> words;
 
@@ -129,22 +122,6 @@ void Dir_Counter::run() {
         mcii++;
     }
 
-}
-
-/*
- * Pop a file off the queue of to-be-processed files.
- *
- * Return a boolean indicating whether the master thread has indicated file
- * indexing is complete.
- */
-bool Dir_Counter::pop_file(std::string* file) {
-    std::lock_guard<std::mutex> lck { *_mx };
-    if (!_files.empty()) {
-        file->assign(_files.front());
-        log(LOC, "popped %s", file->c_str());
-        _files.pop_front();
-    }
-    return _done;
 }
 
 /*
@@ -222,9 +199,7 @@ void Dir_Counter::filer(std::string path) {
 
             log(LOC, "found %s file: %s", _suffix.c_str(), path.c_str());
 
-            std::unique_lock<std::mutex> lck {*_mx};
-            log(LOC, "pushing file: %s", path.c_str());
-            _files.push_back(move(path));
+            _files.push(path);
         } else {
             log(LOC, "skipping non-%s file: %s", _suffix.c_str(), path.c_str());
         }

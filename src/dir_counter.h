@@ -5,25 +5,21 @@
 #include <string>
 #include <mutex>
 
+#include "queue.h"
 #include "ssfi_ex.h"
 
 class Dir_Counter {
 public:
+    Queue _files;
+
     explicit Dir_Counter(const Dir_Counter& dc);
     explicit Dir_Counter(const int& workers, std::string dir_path);
 
-    ~Dir_Counter();
-
     void run();
 
-    bool pop_file(std::string* file);
-
 private:
-    bool _done = false;
-    std::list<std::string> _files;
     bool _err = false;
     Ssfi_Ex _ex;
-    std::mutex* _mx;
     std::string _suffix = std::string(".txt");
     const int _workers;
     std::string _dir_path;

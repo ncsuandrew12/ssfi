@@ -5,17 +5,16 @@
 #include <string>
 #include <thread>
 
-#include "dir_counter.h"
 #include "log.h"
 #include "reader.h"
 #include "ssfi_ex.h"
 
 Counter::Counter(const Counter& c) :
-        _dir_cnt(c._dir_cnt), _err(c._err), _ex(c._ex), _id(c._id), _thread(
+        _err(c._err), _ex(c._ex), _files(c._files), _id(c._id), _thread(
                 c._thread), _words(c._words) {
 }
 
-Counter::Counter(const int& id, Dir_Counter* dc): _id(id), _dir_cnt(dc) {
+Counter::Counter(const int& id, Queue* dc): _files(dc), _id(id) {
     _thread = new std::thread( [this] { this->run(); } );
 }
 
@@ -48,15 +47,12 @@ void Counter::run() {
     log(LOC, "worker %d: starting", _id);
 
     try {
-        std::string file;
         bool done = false;
         bool active = true;
         _words.clear();
 
         do {
-            file.clear();
-
-            done = _dir_cnt->pop_file(&file);
+            std::string file = _files->pop();
 
             if (!file.empty()) {
                 process_file(file);
@@ -68,7 +64,7 @@ void Counter::run() {
                  * done. Otherwise, wait until another file gets added or the
                  * done flag gets set.
                  */
-                active = !done;
+                active = !_files->is_done();
             }
         } while (active);
 

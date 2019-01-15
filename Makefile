@@ -1,6 +1,6 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-OBJS = counter.o dir_counter.o log.o pool.o reader.o ssfi.o ssfi_ex.o util.o
+OBJS = counter.o dir_counter.o log.o pool.o queue.o reader.o ssfi.o ssfi_ex.o util.o
 
 CPPFLAGS += -std=c++11
 ifeq ($(BUILD_MODE),debug)
