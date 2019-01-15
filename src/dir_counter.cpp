@@ -10,10 +10,12 @@
 
 #include "counter.h"
 #include "log.h"
+#include "pool.h"
 
-Dir_Counter::Dir_Counter(const Dir_Counter& dc) :
-        _dir_path(dc._dir_path), _err(dc._err), _ex(dc._ex), _files(dc._files), _done(
-                dc._done), _mx(dc._mx), _workers(dc._workers) {
+Dir_Counter::Dir_Counter(const Dir_Counter& other) :
+        _done(other._done), _dir_path(other._dir_path), _err(other._err), _ex(
+                other._ex), _files(other._files), _mx(other._mx), _workers(
+                other._workers) {
 }
 
 Dir_Counter::Dir_Counter(const int& workers, std::string dir_path) :
@@ -29,133 +31,104 @@ void Dir_Counter::run() {
     log(LOC, "worker threads: %d", _workers);
     log(LOC, "target directory: %s", _dir_path.c_str());
 
-    std::vector<Counter*> counters;
-    try {
-        log(LOC, "launching filer thread");
-        std::thread tfiler = std::thread([this] {this->filer();});
+    log(LOC, "launching filer thread");
+    std::thread tfiler = std::thread([this] {this->filer();});
 
-        for (int i = 1; i <= _workers; i++) {
-            log(LOC, "launching worker thread %d", i);
-            counters.push_back(new Counter(i, this));
-        }
-
-        log(LOC, "joining filer thread");
-        tfiler.join();
-
-        /*
-         * Check for errors during file indexing.
-         */
-        bool err = false;
-        Ssfi_Ex ex;
-        if (_err) {
-            err = true;
-            ex = _ex;
-        }
-
-        log(LOC, "signaling completion");
-        std::unique_lock <std::mutex> lck { *_mx };
-        _done = true;
-        lck.unlock();
-
-        std::map<std::string, long> words;
-
-        int iter_no = 1;
-        for (auto iter = counters.begin(); iter != counters.end(); iter++) {
-            log(LOC, "joining worker thread %d", iter_no++);
-            (*iter)->join();
-
-            if (!err) {
-                /*
-                 * Merge the thread's word count map with the overall word count
-                 * map.
-                 */
-                for (auto wi = (*iter)->_words.begin();
-                        wi != (*iter)->_words.end(); wi++) {
-                    log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
-                            words[wi->first.c_str()], wi->second);
-                    words[wi->first.c_str()] += wi->second;
-                }
-
-                /*
-                 * Check for errors during the worker thread's execution.
-                 */
-                if ((*iter)->_err) {
-                    err = true;
-                    ex = (*iter)->_ex;
-                }
-            }
-        }
-
-        /*
-         * Throw the exception, if any.
-         */
-        if (err) {
-            throw ex;
-        }
-
-        /*
-         * Find the top 10 most common words.
-         */
-        std::vector<std::string> most_common;
-        const int mcl = 10;
-        for (auto wi = words.begin(); wi != words.end(); wi++) {
-            log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
-            bool inserted = false;
-            for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
-                if (wi->second > words[*mci]) {
-                    inserted = true;
-                    most_common.insert(mci, wi->first.c_str());
-                    break;
-                }
-            }
-            if (!inserted && most_common.size() < mcl) {
-                most_common.push_back(wi->first.c_str());
-            }
-            while (most_common.size() > mcl) {
-                most_common.pop_back();
-            }
-        }
-
-        /*
-         * Print out the top 10 most common words
-         */
-        int mcii = 1;
-        for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
-            log(LOC, "word #%02d: \"%s\": %d instances", mcii, (*mci).c_str(),
-                    words[*mci]);
-            printf("%s\t%d\n", (*mci).c_str(), words[*mci]);
-            mcii++;
-        }
-
-        /*
-         * Clean up the worker thread objects.
-         */
-        for (auto iter = counters.begin(); iter != counters.end(); iter++) {
-            delete (*iter);
-        }
-        counters.clear();
-
-    } catch (const Ssfi_Ex& e) {
-        /*
-         * Clean up the worker thread objects.
-         */
-        for (auto iter = counters.begin(); iter != counters.end(); iter++) {
-            delete (*iter);
-        }
-        counters.clear();
-
-        throw e;
-    } catch (const std::exception& e) {
-        /*
-         * Clean up the worker thread objects.
-         */
-        for (auto iter = counters.begin(); iter != counters.end(); iter++) {
-            delete (*iter);
-        }
-        counters.clear();
-
-        throw e;
+    Pool pool;
+    for (int i = 1; i <= _workers; i++) {
+        log(LOC, "launching worker thread %d", i);
+        pool._counters.push_back(new Counter(i, this));
     }
+
+    log(LOC, "joining filer thread");
+    tfiler.join();
+
+    /*
+     * Check for errors during file indexing.
+     */
+    bool err = false;
+    Ssfi_Ex ex;
+    if (_err) {
+        err = true;
+        ex = _ex;
+    }
+
+    log(LOC, "signaling completion");
+    std::unique_lock < std::mutex > lck { *_mx };
+    _done = true;
+    lck.unlock();
+
+    std::map<std::string, long> words;
+
+    int iter_no = 1;
+    for (auto iter = pool._counters.begin(); iter != pool._counters.end();
+            iter++) {
+        log(LOC, "joining worker thread %d", iter_no++);
+        (*iter)->join();
+
+        if (!err) {
+            /*
+             * Merge the thread's word count map with the overall word count
+             * map.
+             */
+            for (auto wi = (*iter)->_words.begin(); wi != (*iter)->_words.end();
+                    wi++) {
+                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
+                        words[wi->first.c_str()], wi->second);
+                words[wi->first.c_str()] += wi->second;
+            }
+
+            /*
+             * Check for errors during the worker thread's execution.
+             */
+            if ((*iter)->_err) {
+                err = true;
+                ex = (*iter)->_ex;
+            }
+        }
+    }
+
+    /*
+     * Throw the exception, if any.
+     */
+    if (err) {
+        throw ex;
+    }
+
+    /*
+     * Find the top 10 most common words.
+     */
+    std::vector<std::string> most_common;
+    const int mcl = 10;
+    for (auto wi = words.begin(); wi != words.end(); wi++) {
+        log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
+        bool inserted = false;
+        for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
+            if (wi->second > words[*mci]) {
+                inserted = true;
+                most_common.insert(mci, wi->first.c_str());
+                break;
+            }
+        }
+        if (!inserted && most_common.size() < mcl) {
+            most_common.push_back(wi->first.c_str());
+        }
+        while (most_common.size() > mcl) {
+            most_common.pop_back();
+        }
+    }
+
+    /*
+     * Print out the top 10 most common words
+     */
+    int mcii = 1;
+    for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
+        log(LOC, "word #%02d: \"%s\": %d instances", mcii, (*mci).c_str(),
+                words[*mci]);
+        printf("%s\t%d\n", (*mci).c_str(), words[*mci]);
+        mcii++;
+    }
+
 }
 
 /*
