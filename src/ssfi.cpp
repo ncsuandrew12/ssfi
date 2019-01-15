@@ -46,10 +46,6 @@ int main(int argc, char **argv) {
 
         log(LOC, "Done.");
 
-    } catch (Ssfi_Ex* e) {
-        e->err(LOC);
-        delete e;
-        ret = RetCode::ERR_GENERIC;
     } catch (const Ssfi_Ex& e) {
         e.err(LOC);
         ret = RetCode::ERR_GENERIC;
