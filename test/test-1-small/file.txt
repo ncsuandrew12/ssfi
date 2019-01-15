@@ -1,2 +1,2 @@
-word1 dupword1 dupword2 word2 word3,word4 dupword1 0word5.word7-word8 dupword1 dupword2
-word9 dupword1
+word1 word8 word2 word2,word3 word8 0word4 0word5 0word5.word6-word7 word8 word9
+word1 word8
