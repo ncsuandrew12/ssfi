@@ -123,7 +123,7 @@ void Dir_Counter::run() {
         for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
             log(LOC, "word #%02d: \"%s\": %d instances", mcii, (*mci).c_str(),
                     words[*mci]);
-            printf("%s %d\n", (*mci).c_str(), words[*mci]);
+            printf("%s\t%d\n", (*mci).c_str(), words[*mci]);
             mcii++;
         }
 
