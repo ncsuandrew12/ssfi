@@ -91,7 +91,7 @@ FYI, here's an example command I used for testing:
 
 I've included some test data and a test script in the `test` directory.
 
-The `test-1-small` directory contains two small files useful for manual verification of the ouptut and for confirming that the character set for "word"s is defined correctly.
+The `test-1-small` directory contains a few files useful for manual verification of the output and for confirming that the character set for "word"s is defined correctly.
 
 The `test-2-big` directory contains numerous copies of dictionary files, some small text files containing snippets from books, several complete copies of a few public domain novels, and a few non-'.txt' files, sub-directories, and a JRE tarball for good measure.
 
