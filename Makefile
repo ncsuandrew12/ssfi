@@ -10,19 +10,19 @@ else
 	CFLAGS += -O2
 endif
 
-all:	bin ssfi
+all:	build ssfi
 
-bin:
+build:
 	mkdir -p $@
 
-ssfi:	$(addprefix bin/, $(OBJS))
+ssfi:	$(addprefix build/, $(OBJS))
 	$(CXX) -o $@ -pthread $^
 
-bin/%.o:	src/%.cpp
+build/%.o:	src/%.cpp
 	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -o $@ -pthread $<
 
-bin/%.o:	src/%.c
+build/%.o:	src/%.c
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ -pthread $<
 
 clean:
-	rm -rf ssfi bin
+	rm -rf ssfi build
