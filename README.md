@@ -87,7 +87,7 @@ word9 2
 
 FYI, here's an example command I used for testing:
 
-`date ; ./ssfi -t 4 test/test-2-big ; date ; echo "Return Code: $?"`
+`date ; ./ssfi -t 4 test/test-2-big ; date ; echo "Exit Code: $?"`
 
 I've included some test data and a test script in the `test` directory.
 
