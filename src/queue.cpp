@@ -36,7 +36,7 @@ bool Queue::pop(std::string* item) {
     std::lock_guard<std::mutex> lck { *_mx };
     if (_killed) {
         throw std::system_error(
-                std::error_code(EPERM, std::generic_category()),
+                std::error_code(1, std::generic_category()),
                 "Queue was killed.");
         return true;
     }
@@ -56,7 +56,7 @@ void Queue::push(std::string item) {
     std::lock_guard<std::mutex> lck { *_mx };
     if (_killed) {
         throw std::system_error(
-                std::error_code(EPERM, std::generic_category()),
+                std::error_code(1, std::generic_category()),
                 "Queue was killed.");
     }
     if (_done) {

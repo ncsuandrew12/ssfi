@@ -79,7 +79,6 @@ void Counter::run() {
         } while (active);
 
     } catch (const std::exception& e) {
-        std::cout << e.what() << std::endl;
         _exp = std::current_exception();
     }
 

@@ -1,3 +1,6 @@
+#include <errno.h>
+#include <sys/stat.h>
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -21,7 +24,7 @@ int main(int argc, char **argv) {
             if (std::string(argv[i]) == "-t") {
                 if (i >= argc - 1) {
                     throw std::invalid_argument(
-                            printf_to_string("no value provided for \'%s\'",
+                            printf_to_string("no value provided for option \'%s\'",
                                     argv[i]));
                 }
                 i++;
@@ -35,8 +38,24 @@ int main(int argc, char **argv) {
                 }
             } else if (path_arg.empty()) {
                 path_arg = std::string(argv[i]);
+
+                struct stat file_info;
+                if (stat(path_arg.c_str(), &file_info) == -1) {
+                    std::string what;
+                    if (errno == ENOENT) {
+                        what = printf_to_string("cannot access %s",
+                                path_arg.c_str());
+                    } else {
+                        what = printf_to_string("Error stat-ing \"%s\"",
+                                path_arg.c_str());
+                    }
+                    throw std::system_error(
+                            std::error_code(errno, std::generic_category()),
+                            what.c_str());
+                }
             } else {
-                log(LOC, "Ignoring extraneous arg #%d: %s", i, argv[i]);
+                throw std::invalid_argument(
+                        printf_to_string("invalid option -- \'%s\'", argv[i]));
             }
         }
 
