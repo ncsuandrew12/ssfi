@@ -24,7 +24,7 @@ To run, execute a command like this:
 For example:
 
 ```
-./ssfi -t 4 test/test-2-big
+./ssfi -t 4 mypath
 ```
 
 # Errors
@@ -83,24 +83,4 @@ that    77187
 it      66586
 his     57423
 ```
-
-# Testing
-
-FYI, here's an example command I used for testing:
-
-`date ; ./ssfi -t 4 test/test-2-big ; date ; echo "Exit Code: $?"`
-
-I've included some test data and a test script in the `test` directory.
-
-The `test-1-small` directory contains a few files useful for manual verification of the output and for confirming that the character set for "word"s is defined correctly.
-
-The `test-2-big` directory contains numerous copies of dictionary files, some small text files containing snippets from books, several complete copies of a few public domain novels, and a few non-'.txt' files, sub-directories, and a JRE tarball for good measure.
-
-The test script (`ssfi.bash`) performs the same function as the C++ code, but using Bash commands. On my system, for the `test/test-2-big` directory, it takes around 18 seconds to complete (compared to around 1-2 seconds for the native code running with 4 worker threads). Example:
-
-`date ; ./ssfi.bash test-2-big/ ; date`
-
-**NOTE:** The order is undefined for top 10 words which have the same number of occurrences. Therefore, output for the ssfi.bash script may differ from the native code if any of the top 10 words have the same number of occurrences. This occurs for the `test-1-small` dataset, but not the `test-2-big` dataset.
-
-**NOTE:** Running against `test-2-big` in debug mode will produce a **LOT** of log output (including one log message each time a word is found in a file).
 
