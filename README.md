@@ -35,10 +35,11 @@ The program will print some error text and return a non-zero error code if any o
 2. The given path does not exist.
 3. No value was provided for -t
 4. The value given to -t is not a number
+5. There is an IO error with the given path or its contents.
 
 Extraneous options will be silently ignored.
 
-Example command to demonstrate these errors:
+Example command to demonstrate the more likely errors:
 
 ```
 [afelsher@localhost ssfi]$ ./ssfi ; ./ssfi -t ; ./ssfi -t a ; ./ssfi badpath
