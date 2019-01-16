@@ -17,24 +17,29 @@ public:
     ~Queue();
 
     /*
-     * Indicate that no more items will be added to the queue.
-     */
-    void done();
-
-    /*
-     * Return a boolean indicating whether the queue is empty AND master thread
-     * has indicated file indexing is complete.
+     * Return a boolean indicating whether the queue is empty AND the producer
+     * has indicated that no more items will be added.
      */
     bool is_done();
 
     /*
+     * Indicate that no more items will be added to the queue.
+     *
+     * push() should never be called after this.
+     */
+    void last_push();
+
+    /*
      * Pop a file off the queue of to-be-processed files.
+     *
+     * Return true if an item was popped, false if it wasn't.
      */
     bool pop(std::string* item);
 
     /*
      * Push a file to the queue of to-be-processed files.
-     * Do not call after calling done().
+     *
+     * Do not call after calling done(). Doing so produces an exception.
      */
     void push(std::string item);
 };

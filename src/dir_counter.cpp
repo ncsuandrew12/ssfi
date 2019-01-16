@@ -46,8 +46,8 @@ void Dir_Counter::run() {
         exp = _exp;
     }
 
-    log(LOC, "signaling completion");
-    _files.done();
+    log(LOC, "signaling indexing completion");
+    _files.last_push();
 
     std::map<std::string, long> words;
 

@@ -13,17 +13,17 @@ Queue::~Queue() {
     delete _mx;
 }
 
-void Queue::done() {
-    std::lock_guard<std::mutex> lck { *_mx };
-    _pre_done = true;
-}
-
 bool Queue::is_done() {
     std::lock_guard<std::mutex> lck { *_mx };
     if (_pre_done && _files.empty()) {
         _done = true;
     }
     return _done;
+}
+
+void Queue::last_push() {
+    std::lock_guard<std::mutex> lck { *_mx };
+    _pre_done = true;
 }
 
 bool Queue::pop(std::string* item) {
