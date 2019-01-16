@@ -42,10 +42,10 @@ Example command to demonstrate these errors:
 
 ```
 [afelsher@localhost ssfi]$ ./ssfi ; ./ssfi -t ; ./ssfi -t a ; ./ssfi badpath
-Error: No path provided
-Error: No value provided for "-t"
-Error: Error parsing value for option "-t": "a". Value must be a number.
-Error: Path does not exist: "badpath"
+no path provided
+no value provided for '-t'
+invalid value for option '-t' ('a'). Value must be a number >= 1.
+cannot access badpath: No such file or directory
 ```
 
 # Output
