@@ -10,11 +10,11 @@
 
 class Dir_Counter {
 private:
+    const std::string _dir_path;
     std::exception_ptr _exp;
     Queue _files;
     std::string _suffix = std::string(".txt");
     const int _workers;
-    const std::string _dir_path;
 
     /*
      * Index all files, including _dir_path and any children.

@@ -15,10 +15,15 @@ Queue::~Queue() {
 
 bool Queue::is_done() {
     std::lock_guard<std::mutex> lck { *_mx };
-    if (_pre_done && _files.empty()) {
+    if (_killed || (_pre_done && _list.empty())) {
         _done = true;
     }
     return _done;
+}
+
+void Queue::kill() {
+    std::lock_guard<std::mutex> lck { *_mx };
+    _killed = true;
 }
 
 void Queue::last_push() {
@@ -29,13 +34,19 @@ void Queue::last_push() {
 bool Queue::pop(std::string* item) {
     bool ret = false;
     std::lock_guard<std::mutex> lck { *_mx };
-    if (!_files.empty()) {
-        ret = true;
-        item->assign(_files.front());
-        log(LOC, "popped %s", item->c_str());
-        _files.pop_front();
+    if (_killed) {
+        throw std::system_error(
+                std::error_code(EPERM, std::generic_category()),
+                "Queue was killed.");
+        return true;
     }
-    if (_pre_done && _files.empty()) {
+    if (!_list.empty()) {
+        ret = true;
+        item->assign(_list.front());
+        log(LOC, "popped %s (%d remaining)", item->c_str(), _list.size());
+        _list.pop_front();
+    }
+    if (_pre_done && _list.empty()) {
         _done = true;
     }
     return ret;
@@ -43,10 +54,15 @@ bool Queue::pop(std::string* item) {
 
 void Queue::push(std::string item) {
     std::lock_guard<std::mutex> lck { *_mx };
+    if (_killed) {
+        throw std::system_error(
+                std::error_code(EPERM, std::generic_category()),
+                "Queue was killed.");
+    }
     if (_done) {
         throw std::logic_error("Queue: push() called after done()");
     }
     log(LOC, "pushing file: %s", item.c_str());
-    _files.push_back(std::move(item));
+    _list.push_back(std::move(item));
 }
 

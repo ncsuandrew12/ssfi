@@ -26,16 +26,16 @@ std::map<std::string, long>::iterator Counter::end() {
     return _words.end();
 }
 
+int Counter::index() {
+    return _idx;
+}
+
 void Counter::join() {
     if (_thread != nullptr) {
         _thread->join();
         delete _thread;
         _thread = nullptr;
     }
-}
-
-int Counter::index() {
-    return _idx;
 }
 
 void Counter::process_file(std::string file) {
@@ -70,9 +70,9 @@ void Counter::run() {
                 /*
                  * There aren't currently any files to process.
                  *
-                 * If the indexer has indicated indexing is complete, then we're
-                 * done. Otherwise, wait until another file gets added or the
-                 * done flag gets set.
+                 * If the indexer has indicated indexing is complete or that
+                 * it's been killed, then we're done. Otherwise, wait until
+                 * another file gets added or the done flag gets set.
                  */
                 active = !_files->is_done();
             }

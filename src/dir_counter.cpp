@@ -19,7 +19,7 @@
 #include "queue.h"
 
 Dir_Counter::Dir_Counter(const int& workers, const std::string dir_path) :
-        _workers(workers), _dir_path(dir_path) {
+        _dir_path(dir_path), _workers(workers) {
 }
 
 void Dir_Counter::run() {
@@ -41,9 +41,9 @@ void Dir_Counter::run() {
     /*
      * Check for errors during file indexing.
      */
-    std::exception_ptr exp;
     if (_exp != nullptr) {
-        exp = _exp;
+        _files.kill();
+        std::rethrow_exception(_exp);
     }
 
     log(LOC, "signaling indexing completion");
@@ -56,32 +56,22 @@ void Dir_Counter::run() {
         log(LOC, "joining worker thread %d", (*iter)->index());
         (*iter)->join();
 
-        if (exp == nullptr) {
-            /*
-             * Merge the thread's word count map with the overall word count
-             * map.
-             */
-            for (auto wi = (*iter)->begin(); wi != (*iter)->end();
-                    wi++) {
-                log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
-                        words[wi->first.c_str()], wi->second);
-                words[wi->first.c_str()] += wi->second;
-            }
-
-            /*
-             * Check for errors during the worker thread's execution.
-             */
-            if ((*iter)->_exp != nullptr) {
-                exp = (*iter)->_exp;
-            }
+        /*
+         * Check for errors during the worker thread's execution.
+         */
+        if ((*iter)->_exp != nullptr) {
+            std::rethrow_exception((*iter)->_exp);
         }
-    }
 
-    /*
-     * Throw the exception, if any.
-     */
-    if (exp != nullptr) {
-        std::rethrow_exception(exp);
+        /*
+         * Merge the thread's word count map with the overall word count
+         * map.
+         */
+        for (auto wi = (*iter)->begin(); wi != (*iter)->end(); wi++) {
+            log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
+                    words[wi->first.c_str()], wi->second);
+            words[wi->first.c_str()] += wi->second;
+        }
     }
 
     /*

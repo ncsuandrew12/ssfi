@@ -8,7 +8,8 @@
 class Queue {
 private:
     bool _done = false;
-    std::list<std::string> _files;
+    bool _killed = false;
+    std::list<std::string> _list;
     std::mutex* _mx;
     bool _pre_done = false;
 public:
@@ -17,10 +18,19 @@ public:
     ~Queue();
 
     /*
-     * Return a boolean indicating whether the queue is empty AND the producer
-     * has indicated that no more items will be added.
+     * Return a boolean indicating whether:
+     *  (a) the queue has been killed
+     *  OR
+     *   (b1) the queue is empty
+     *   AND
+     *   (b2) the producer as indicated that no more items will be added
      */
     bool is_done();
+
+    /*
+     * Terminate the queue.
+     */
+    void kill();
 
     /*
      * Indicate that no more items will be added to the queue.

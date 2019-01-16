@@ -38,14 +38,14 @@ public:
     std::map<std::string, long>::iterator end();
 
     /*
-     * Join and free _thread
-     */
-    void join();
-
-    /*
      * Return the index of this counter.
      */
     int index();
+
+    /*
+     * Join and free _thread
+     */
+    void join();
 
     /*
      * Run the main worker thread logic. Until the file queue is empty and no
