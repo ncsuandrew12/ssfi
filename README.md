@@ -55,32 +55,32 @@ The program will print up to 10 of the most common words in the given file path.
 Example 1:
 
 ```
-[afelsher@localhost ssfi]$ ./ssfi -t 4 test/test-2-big
-the 310791
-and 167838
-of 161726
-to 132119
-a 114973
-I 105301
-in 91662
-that 74262
-was 55715
-it 55143
+[afelsher@localhost ssfi]$ ./ssfi -t 4 test/test-1-small
+word8   6
+word2   5
+0word5  4
+word1   4
+0word4  2
+word3   2
+word6   2
+word7   2
+word9   2
 ```
 
 Example 2:
 
 ```
-[afelsher@localhost ssfi]$ ./ssfi -t 4 test/test-1-small
-word8 6
-0word5 4
-word1 4
-word2 4
-0word4 2
-word3 2
-word6 2
-word7 2
-word9 2
+[afelsher@localhost ssfi]$ ./ssfi -t 4 test/test-2-big
+the     332634
+and     177910
+of      163383
+to      134443
+a       119486
+i       105483
+in      96710
+that    77187
+it      66586
+his     57423
 ```
 
 # Testing
