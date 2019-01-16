@@ -89,21 +89,29 @@ void Dir_Counter::run() {
      */
     std::vector<std::string> most_common;
     const int mcl = 10;
+    int full_smallest = 0;
     for (auto wi = words.begin(); wi != words.end(); wi++) {
         log(LOC, "word \"%s\": %d instances", wi->first.c_str(), wi->second);
-        bool inserted = false;
+        bool added = false;
+        if (wi->second <= full_smallest) {
+            continue;
+        }
         for (auto mci = most_common.begin(); mci != most_common.end(); mci++) {
             if (wi->second > words[*mci]) {
-                inserted = true;
+                added = true;
                 most_common.insert(mci, wi->first.c_str());
                 break;
             }
         }
-        if (!inserted && most_common.size() < mcl) {
+        if (!added && most_common.size() < mcl) {
+            added = true;
             most_common.push_back(wi->first.c_str());
         }
         while (most_common.size() > mcl) {
             most_common.pop_back();
+        }
+        if (added && (most_common.size() == mcl)) {
+            full_smallest = words[most_common.at(mcl - 1)];
         }
     }
 
