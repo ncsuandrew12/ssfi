@@ -145,7 +145,7 @@ void Dir_Counter::filer(const std::string path) {
                 what = printf_to_string("cannot access %s",
                         path.c_str());
             } else {
-                what = printf_to_string("Error stat-ing \"%s\"", path.c_str());
+                what = printf_to_string("error stat-ing \"%s\"", path.c_str());
             }
             throw std::system_error(
                     std::error_code(errno, std::generic_category()),
@@ -159,7 +159,7 @@ void Dir_Counter::filer(const std::string path) {
             if (dir == nullptr) {
                 throw std::system_error(
                         std::error_code(EIO, std::generic_category()),
-                        printf_to_string("Error opening directory \"%s\"",
+                        printf_to_string("error opening directory \"%s\"",
                                 path.c_str()));
             }
 

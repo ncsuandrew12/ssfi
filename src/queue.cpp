@@ -37,7 +37,7 @@ bool Queue::pop(std::string* item) {
     if (_killed) {
         throw std::system_error(
                 std::error_code(1, std::generic_category()),
-                "Queue was killed.");
+                "queue was killed.");
         return true;
     }
     if (!_list.empty()) {
@@ -57,10 +57,10 @@ void Queue::push(std::string item) {
     if (_killed) {
         throw std::system_error(
                 std::error_code(1, std::generic_category()),
-                "Queue was killed.");
+                "queue was killed.");
     }
     if (_done) {
-        throw std::logic_error("Queue: push() called after done()");
+        throw std::logic_error("queue: push() called after done()");
     }
     log(LOC, "pushing file: %s", item.c_str());
     _list.push_back(std::move(item));
