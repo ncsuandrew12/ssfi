@@ -17,8 +17,8 @@ public:
 
     void done();
     bool is_done();
-    std::string pop();
-    void push(std::string file);
+    bool pop(std::string* item);
+    void push(std::string item);
 
 private:
     bool _done = false;

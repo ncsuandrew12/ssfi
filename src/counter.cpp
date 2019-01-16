@@ -52,9 +52,11 @@ void Counter::run() {
         _words.clear();
 
         do {
-            std::string file = _files->pop();
+            std::string file;
 
-            if (!file.empty()) {
+            bool rc = _files->pop(&file);
+
+            if (rc) {
                 process_file(file);
             } else {
                 /*

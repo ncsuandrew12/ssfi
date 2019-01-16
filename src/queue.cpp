@@ -37,11 +37,12 @@ bool Queue::is_done() {
 /*
  * Pop a file off the queue of to-be-processed files.
  */
-std::string Queue::pop() {
-    std::string ret;
+bool Queue::pop(std::string* item) {
+    bool ret = false;
     std::lock_guard<std::mutex> lck { *_mx };
     if (!_files.empty()) {
-        ret.assign(_files.front());
+        ret = true;
+        item->assign(_files.front());
         log(LOC, "popped %s", ret.c_str());
         _files.pop_front();
     }
@@ -54,9 +55,9 @@ std::string Queue::pop() {
 /*
  * Push a file to the queue of to-be-processed files.
  */
-void Queue::push(std::string str) {
+void Queue::push(std::string item) {
     std::lock_guard<std::mutex> lck { *_mx };
-    log(LOC, "pushing file: %s", str.c_str());
-    _files.push_back(std::move(str));
+    log(LOC, "pushing file: %s", item.c_str());
+    _files.push_back(std::move(item));
 }
 
