@@ -13,14 +13,14 @@ private:
     std::thread* _thread;
     Queue* _files;
 
-    void process_file(std::string path);
+    void process_file(const std::string path);
 
 public:
     std::exception_ptr _exp;
     const int _id;
     std::map<std::string, long> _words;
 
-    Counter(const int& id, Queue* files);
+    explicit Counter(const int& id, Queue* files);
     ~Counter();
 
     void join();

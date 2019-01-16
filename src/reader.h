@@ -8,9 +8,7 @@ class Reader {
 private:
     std::ifstream* _stream;
 public:
-    Reader();
-    Reader(const Reader& reader);
-    Reader(std::ifstream* stream);
+    explicit Reader(std::ifstream* stream);
 
     bool operator >>(std::string& out);
 };

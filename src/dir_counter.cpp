@@ -19,7 +19,7 @@
 #include "util.h"
 #include "queue.h"
 
-Dir_Counter::Dir_Counter(const int& workers, std::string dir_path) :
+Dir_Counter::Dir_Counter(const int& workers, const std::string dir_path) :
         _workers(workers), _dir_path(dir_path) {
 }
 
@@ -137,7 +137,7 @@ void Dir_Counter::filer() {
  *
  * If it's a directory, index its contents.
  */
-void Dir_Counter::filer(std::string path) {
+void Dir_Counter::filer(const std::string path) {
     DIR *dir = nullptr;
 
     try {

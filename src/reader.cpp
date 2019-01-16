@@ -3,14 +3,6 @@
 #include <fstream>
 #include <string>
 
-Reader::Reader() :
-        _stream(nullptr) {
-}
-
-Reader::Reader(const Reader& reader) :
-        _stream(reader._stream) {
-}
-
 Reader::Reader(std::ifstream* stream) :
         _stream(stream) {
 }
