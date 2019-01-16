@@ -6,7 +6,7 @@
 #include <string>
 #include <thread>
 
-#include "dir_counter.h"
+#include "queue.h"
 
 class Counter {
 private:

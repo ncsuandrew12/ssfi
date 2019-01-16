@@ -1,10 +1,7 @@
-#include <stdio.h>
-
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
-#include <sstream>
-#include <typeinfo>
 
 #include "dir_counter.h"
 #include "log.h"
@@ -57,6 +54,9 @@ int main(int argc, char **argv) {
     } catch (const std::invalid_argument& e) {
         std::cout << e.what() << std::endl;
         ret = EINVAL;
+    } catch (const std::system_error& e) {
+        std::cout << e.what() << std::endl;
+        ret = e.code().value();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         ret = ENOMSG;

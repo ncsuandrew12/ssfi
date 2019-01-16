@@ -1,11 +1,9 @@
 #include "util.h"
 
 #include <stdarg.h>
-#include <stdio.h>
 
 #include <memory>
-
-#include "log.h"
+#include <string>
 
 std::string printf_to_string(const char* format, ...) {
     std::string ret;

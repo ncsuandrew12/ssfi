@@ -4,7 +4,6 @@
 #include <stdexcept>
 
 #include "log.h"
-#include "queue.h"
 
 Queue::Queue() {
     _mx = new std::mutex();
