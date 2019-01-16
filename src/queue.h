@@ -6,6 +6,11 @@
 #include <mutex>
 
 class Queue {
+private:
+    bool _done = false;
+    std::list<std::string> _files;
+    std::mutex* _mx;
+    bool _pre_done = false;
 public:
     Queue();
 
@@ -32,12 +37,6 @@ public:
      * Do not call after calling done().
      */
     void push(std::string item);
-
-private:
-    bool _done = false;
-    bool _pre_done = false;
-    std::list<std::string> _files;
-    std::mutex* _mx;
 };
 
 #endif /* QUEUE_H_ */

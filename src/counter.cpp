@@ -10,12 +10,20 @@
 #include "log.h"
 #include "reader.h"
 
-Counter::Counter(const int& id, Queue* files): _files(files), _id(id) {
+Counter::Counter(const int& id, Queue* files): _files(files), _idx(id) {
     _thread = new std::thread( [this] { this->run(); } );
 }
 
 Counter::~Counter() {
     join();
+}
+
+std::map<std::string, long>::iterator Counter::begin() {
+    return _words.begin();
+}
+
+std::map<std::string, long>::iterator Counter::end() {
+    return _words.end();
 }
 
 void Counter::join() {
@@ -24,6 +32,10 @@ void Counter::join() {
         delete _thread;
         _thread = nullptr;
     }
+}
+
+int Counter::index() {
+    return _idx;
 }
 
 void Counter::process_file(std::string file) {
@@ -41,7 +53,7 @@ void Counter::process_file(std::string file) {
 }
 
 void Counter::run() {
-    log(LOC, "worker %d: starting", _id);
+    log(LOC, "worker %d: starting", _idx);
 
     try {
         _words.clear();
@@ -71,5 +83,5 @@ void Counter::run() {
         _exp = std::current_exception();
     }
 
-    log(LOC, "worker %d: ending", _id);
+    log(LOC, "worker %d: ending", _idx);
 }

@@ -11,6 +11,7 @@
 class Dir_Counter {
 private:
     std::exception_ptr _exp;
+    Queue _files;
     std::string _suffix = std::string(".txt");
     const int _workers;
     const std::string _dir_path;
@@ -26,8 +27,6 @@ private:
     void filer(const std::string dir_path);
 
 public:
-    Queue _files;
-
     explicit Dir_Counter(const int& workers, const std::string dir_path);
 
     /*

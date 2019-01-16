@@ -1,6 +1,7 @@
 #include "pool.h"
 
 #include <iterator>
+#include <vector>
 
 Pool::Pool() {
 }
@@ -13,5 +14,17 @@ Pool::~Pool() {
         delete (*iter);
     }
     _counters.clear();
+}
+
+std::vector<Counter*>::iterator Pool::begin() {
+    return _counters.begin();
+}
+
+std::vector<Counter*>::iterator Pool::end() {
+    return _counters.end();
+}
+
+void Pool::push(Counter* counter) {
+    _counters.push_back(counter);
 }
 

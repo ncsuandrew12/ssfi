@@ -32,7 +32,7 @@ void Dir_Counter::run() {
     Pool pool;
     for (int i = 1; i <= _workers; i++) {
         log(LOC, "launching worker thread %d", i);
-        pool._counters.push_back(new Counter(i, &_files));
+        pool.push(new Counter(i, &_files));
     }
 
     log(LOC, "joining filer thread");
@@ -51,9 +51,9 @@ void Dir_Counter::run() {
 
     std::map<std::string, long> words;
 
-    for (auto iter = pool._counters.begin(); iter != pool._counters.end();
+    for (auto iter = pool.begin(); iter != pool.end();
             iter++) {
-        log(LOC, "joining worker thread %d", (*iter)->_id);
+        log(LOC, "joining worker thread %d", (*iter)->index());
         (*iter)->join();
 
         if (exp == nullptr) {
@@ -61,7 +61,7 @@ void Dir_Counter::run() {
              * Merge the thread's word count map with the overall word count
              * map.
              */
-            for (auto wi = (*iter)->_words.begin(); wi != (*iter)->_words.end();
+            for (auto wi = (*iter)->begin(); wi != (*iter)->end();
                     wi++) {
                 log(LOC, "word \"%s\": %d+=%d instances", wi->first.c_str(),
                         words[wi->first.c_str()], wi->second);
