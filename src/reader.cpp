@@ -3,8 +3,6 @@
 #include <fstream>
 #include <string>
 
-#include "log.h"
-
 Reader::Reader() :
         _stream(nullptr) {
 }

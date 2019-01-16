@@ -99,7 +99,7 @@ The test script (`ssfi.bash`) performs the same function as the C++ code, but us
 
 `date ; ./ssfi.bash test-2-big/ ; date`
 
-<b>NOTE:</b> The order is undefined for top 10 words which have the same number of occurrences. Therefore, output for the ssfi.bash script may differ from the native code if any of the top 10 words have the same number of occurrences. This occurs for the `test-1-small` dataset, but not the `test-2-big` dataset.
+**NOTE:** The order is undefined for top 10 words which have the same number of occurrences. Therefore, output for the ssfi.bash script may differ from the native code if any of the top 10 words have the same number of occurrences. This occurs for the `test-1-small` dataset, but not the `test-2-big` dataset.
 
-<b>NOTE:</b> Running against `test-2-big` in debug mode will produce a <b>LOT</b> of log output (including one log message each time a word is found in a file).
+**NOTE:** Running against `test-2-big` in debug mode will produce a **LOT** of log output (including one log message each time a word is found in a file).
 

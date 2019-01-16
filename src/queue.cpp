@@ -1,13 +1,10 @@
 #include "queue.h"
 
 #include <mutex>
+#include <stdexcept>
 
 #include "log.h"
 #include "queue.h"
-
-Queue::Queue(const Queue& other) :
-        _done(other._done), _files(other._files), _mx(other._mx) {
-}
 
 Queue::Queue() {
     _mx = new std::mutex();
@@ -17,33 +14,26 @@ Queue::~Queue() {
     delete _mx;
 }
 
-/*
- * Indicate that no more items will be added to the queue.
- */
 void Queue::done() {
     std::lock_guard<std::mutex> lck { *_mx };
     _pre_done = true;
 }
 
-/*
- * Return a boolean indicating whether the master thread has indicated file
- * indexing is complete.
- */
 bool Queue::is_done() {
     std::lock_guard<std::mutex> lck { *_mx };
+    if (_pre_done && _files.empty()) {
+        _done = true;
+    }
     return _done;
 }
 
-/*
- * Pop a file off the queue of to-be-processed files.
- */
 bool Queue::pop(std::string* item) {
     bool ret = false;
     std::lock_guard<std::mutex> lck { *_mx };
     if (!_files.empty()) {
         ret = true;
         item->assign(_files.front());
-        log(LOC, "popped %s", ret.c_str());
+        log(LOC, "popped %s", item->c_str());
         _files.pop_front();
     }
     if (_pre_done && _files.empty()) {
@@ -52,11 +42,11 @@ bool Queue::pop(std::string* item) {
     return ret;
 }
 
-/*
- * Push a file to the queue of to-be-processed files.
- */
 void Queue::push(std::string item) {
     std::lock_guard<std::mutex> lck { *_mx };
+    if (_done) {
+        throw std::logic_error("Queue: push() called after done()");
+    }
     log(LOC, "pushing file: %s", item.c_str());
     _files.push_back(std::move(item));
 }

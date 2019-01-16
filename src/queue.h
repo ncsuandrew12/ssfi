@@ -5,19 +5,32 @@
 #include <string>
 #include <mutex>
 
-#include "ssfi_ex.h"
-
 class Queue {
 public:
-
     Queue();
-    Queue(const Queue& dc);
 
     ~Queue();
 
+    /*
+     * Indicate that no more items will be added to the queue.
+     */
     void done();
+
+    /*
+     * Return a boolean indicating whether the queue is empty AND master thread
+     * has indicated file indexing is complete.
+     */
     bool is_done();
+
+    /*
+     * Pop a file off the queue of to-be-processed files.
+     */
     bool pop(std::string* item);
+
+    /*
+     * Push a file to the queue of to-be-processed files.
+     * Do not call after calling done().
+     */
     void push(std::string item);
 
 private:
@@ -25,7 +38,6 @@ private:
     bool _pre_done = false;
     std::list<std::string> _files;
     std::mutex* _mx;
-
 };
 
 #endif /* QUEUE_H_ */

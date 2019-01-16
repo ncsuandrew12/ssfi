@@ -4,9 +4,8 @@
 #include <fstream>
 #include <string>
 
-#include "log.h"
-
 class Reader {
+private:
     std::ifstream* _stream;
 public:
     Reader();

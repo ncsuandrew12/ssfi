@@ -1,19 +1,20 @@
 #include <stdio.h>
 
+#include <iostream>
 #include <stdexcept>
 #include <string>
+#include <sstream>
 #include <typeinfo>
 
 #include "dir_counter.h"
 #include "log.h"
-#include "ssfi_ex.h"
 #include "util.h"
 
 int main(int argc, char **argv) {
-    RetCode ret = RetCode::SUCCESS;
+    int ret = 0;
 
     try {
-        int worker_threads = 1;
+        int worker_threads = -1;
         std::string path_arg;
 
         /*
@@ -22,16 +23,18 @@ int main(int argc, char **argv) {
         for (int i = 1; i < argc; i++) {
             if (std::string(argv[i]) == "-t") {
                 if (i >= argc - 1) {
-                    throw Ssfi_Ex(LOC, "No value provided",
-                            "No value provided for \"%s\"", argv[i]);
+                    throw std::invalid_argument(
+                            printf_to_string("no value provided for \'%s\'",
+                                    argv[i]));
                 }
-                try {
-                    worker_threads = std::stoi(argv[i + 1]);
-                    i++; // Skip over value to next option.
-                } catch (std::invalid_argument& e) {
-                    throw Ssfi_Ex(LOC, "Error parsing option value.",
-                            "Error parsing value for option \"%s\": \"%s\". Value must be a number.",
-                            argv[i], argv[i + 1]);
+                i++;
+                std::istringstream iss(std::string(argv[i]));
+                iss >> worker_threads;
+                if (worker_threads < 1) {
+                    throw std::invalid_argument(
+                            printf_to_string(
+                                    "invalid value for option \'%s\' (\'%s\'). Value must be a number >= 1.",
+                                    argv[i - 1], argv[i]));
                 }
             } else if (path_arg.empty()) {
                 path_arg = std::string(argv[i]);
@@ -41,8 +44,7 @@ int main(int argc, char **argv) {
         }
 
         if (path_arg.empty()) {
-            throw Ssfi_Ex(LOC, "No path provided",
-                    (const char*) nullptr);
+            throw std::invalid_argument("no path provided");
         }
 
         /*
@@ -52,14 +54,14 @@ int main(int argc, char **argv) {
 
         log(LOC, "Done.");
 
-    } catch (const Ssfi_Ex& e) {
-        e.err(LOC);
-        ret = RetCode::ERR_GENERIC;
+    } catch (const std::invalid_argument& e) {
+        std::cout << e.what() << std::endl;
+        ret = EINVAL;
     } catch (const std::exception& e) {
-        log_err(LOC, e);
-        ret = RetCode::ERR_GENERIC;
+        std::cout << e.what() << std::endl;
+        ret = ENOMSG;
     }
 
-    return static_cast<int>(ret);
+    return ret;
 }
 

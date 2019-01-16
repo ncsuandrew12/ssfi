@@ -5,10 +5,6 @@
 Pool::Pool() {
 }
 
-Pool::Pool(const Pool& other) :
-        _counters(other._counters) {
-}
-
 Pool::~Pool() {
     /*
      * Clean up the worker thread objects.

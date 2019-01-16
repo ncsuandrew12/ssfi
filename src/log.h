@@ -1,17 +1,17 @@
 #ifndef LOG_H_
 #define LOG_H_
 
+#ifdef SSFI_DEBUG
+
 #include <stdio.h>
 
 #include "util.h"
 
-#ifdef SSFI_DEBUG
+extern int flog(FILE* stream, const char* file, const int& line,
+        const char* func, const char* format, va_list args);
 
 extern int flogv(FILE* stream, const char* file, const int& line,
         const char* func, const char* format, ...);
-
-extern int flog(FILE* stream, const char* file, const int& line,
-        const char* func, const char* format, va_list args);
 
 extern void log(const char* file, const int& line, const char* func,
         const char* format, ...);
@@ -21,11 +21,5 @@ extern void log(const char* file, const int& line, const char* func,
 #define log(...)
 
 #endif // SSFI_DEBUG
-
-extern void log_err(const char* file, const int& line, const char* func,
-        const std::exception& ex);
-
-extern void log_err(const char* file, const int& line, const char* func,
-        const char* format, ...);
 
 #endif /* LOG_H_ */

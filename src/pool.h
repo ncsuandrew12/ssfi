@@ -10,7 +10,6 @@ public:
     std::vector<Counter*> _counters;
 
     Pool();
-    Pool(const Pool& dc);
 
     ~Pool();
 

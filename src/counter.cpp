@@ -1,5 +1,7 @@
 #include "counter.h"
 
+#include <exception>
+#include <iostream>
 #include <map>
 #include <mutex>
 #include <string>
@@ -7,25 +9,20 @@
 
 #include "log.h"
 #include "reader.h"
-#include "ssfi_ex.h"
 
-Counter::Counter(const Counter& c) :
-        _err(c._err), _ex(c._ex), _files(c._files), _id(c._id), _thread(
-                c._thread), _words(c._words) {
-}
-
-Counter::Counter(const int& id, Queue* dc): _files(dc), _id(id) {
+Counter::Counter(const int& id, Queue* files): _files(files), _id(id) {
     _thread = new std::thread( [this] { this->run(); } );
 }
 
 Counter::~Counter() {
     join();
-    delete _thread;
 }
 
 void Counter::join() {
-    if (_thread->joinable()) {
+    if (_thread != nullptr) {
         _thread->join();
+        delete _thread;
+        _thread = nullptr;
     }
 }
 
@@ -47,10 +44,9 @@ void Counter::run() {
     log(LOC, "worker %d: starting", _id);
 
     try {
-        bool done = false;
-        bool active = true;
         _words.clear();
 
+        bool active = true;
         do {
             std::string file;
 
@@ -70,14 +66,9 @@ void Counter::run() {
             }
         } while (active);
 
-    } catch (const Ssfi_Ex& e) {
-        e.err(LOC);
-        _err = true;
-        _ex = Ssfi_Ex(LOC, (const char*) e.what(), "%s", e.msg().c_str());
     } catch (const std::exception& e) {
-        log_err(LOC, "%s thrown: %s", typeid(e).name(), e.what());
-        _err = true;
-        _ex = Ssfi_Ex(LOC, (const char*) e.what(), (const char*) nullptr);
+        std::cout << e.what() << std::endl;
+        _exp = std::current_exception();
     }
 
     log(LOC, "worker %d: ending", _id);
