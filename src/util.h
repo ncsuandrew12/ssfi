@@ -3,6 +3,9 @@
 
 #include <string>
 
+/*
+ * Convert a printf format string and its args to a printf-formatted string.
+ */
 extern std::string printf_to_string(const char* format, ...);
 
 #define LOC __FILE__, __LINE__, __FUNCTION__

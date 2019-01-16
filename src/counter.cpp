@@ -26,16 +26,16 @@ void Counter::join() {
     }
 }
 
-void Counter::process_file(std::string path) {
-    log(LOC, "processing file: %s", path.c_str());
+void Counter::process_file(std::string file) {
+    log(LOC, "processing file: %s", file.c_str());
 
-    std::ifstream stream(path.c_str());
+    std::ifstream stream(file.c_str());
     std::string word;
 
     Reader reader(&stream);
 
     while (reader >> word) {
-        log(LOC, "found word \"%s\" in file: %s", word.c_str(), path.c_str());
+        log(LOC, "found word \"%s\" in file: %s", word.c_str(), file.c_str());
         _words[word]++;
     }
 }

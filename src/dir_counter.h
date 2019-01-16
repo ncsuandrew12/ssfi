@@ -9,21 +9,31 @@
 #include "queue.h"
 
 class Dir_Counter {
-public:
-    Queue _files;
-
-    explicit Dir_Counter(const int& workers, const std::string dir_path);
-
-    void run();
-
 private:
     std::exception_ptr _exp;
     std::string _suffix = std::string(".txt");
     const int _workers;
     const std::string _dir_path;
 
+    /*
+     * Index all files, including _dir_path and any children.
+     */
     void filer();
+
+    /*
+     * Index all files, including dir_path and any children.
+     */
     void filer(const std::string dir_path);
+
+public:
+    Queue _files;
+
+    explicit Dir_Counter(const int& workers, const std::string dir_path);
+
+    /*
+     * Run the main SSFI logic, including launching threads.
+     */
+    void run();
 };
 
 #endif /* DIR_COUNTER_H_ */

@@ -12,7 +12,6 @@ public:
     Pool();
 
     ~Pool();
-
 };
 
 #endif /* POOL_H_ */
