@@ -10,8 +10,8 @@
 #include "log.h"
 #include "reader.h"
 
-Counter::Counter(const int& id, Queue* files): _files(files), _idx(id) {
-    _thread = new std::thread( [this] { this->run(); } );
+Counter::Counter(const int& id, Queue* files): m_files(files), m_idx(id) {
+    m_thread = new std::thread( [this] { this->run(); } );
 }
 
 Counter::~Counter() {
@@ -19,22 +19,22 @@ Counter::~Counter() {
 }
 
 std::map<std::string, long>::iterator Counter::begin() {
-    return _words.begin();
+    return m_words.begin();
 }
 
 std::map<std::string, long>::iterator Counter::end() {
-    return _words.end();
+    return m_words.end();
 }
 
 int Counter::index() {
-    return _idx;
+    return m_idx;
 }
 
 void Counter::join() {
-    if (_thread != nullptr) {
-        _thread->join();
-        delete _thread;
-        _thread = nullptr;
+    if (m_thread != nullptr) {
+        m_thread->join();
+        delete m_thread;
+        m_thread = nullptr;
     }
 }
 
@@ -48,21 +48,21 @@ void Counter::process_file(std::string file) {
 
     while (reader >> word) {
         log(LOC, "found word \"%s\" in file: %s", word.c_str(), file.c_str());
-        _words[word]++;
+        m_words[word]++;
     }
 }
 
 void Counter::run() {
-    log(LOC, "worker %d: starting", _idx);
+    log(LOC, "worker %d: starting", m_idx);
 
     try {
-        _words.clear();
+        m_words.clear();
 
         bool active = true;
         do {
             std::string file;
 
-            bool rc = _files->pop(&file);
+            bool rc = m_files->pop(&file);
 
             if (rc) {
                 process_file(file);
@@ -74,13 +74,13 @@ void Counter::run() {
                  * it's been killed, then we're done. Otherwise, wait until
                  * another file gets added or the done flag gets set.
                  */
-                active = !_files->is_done();
+                active = !m_files->is_done();
             }
         } while (active);
 
     } catch (const std::exception& e) {
-        _exp = std::current_exception();
+        m_exp = std::current_exception();
     }
 
-    log(LOC, "worker %d: ending", _idx);
+    log(LOC, "worker %d: ending", m_idx);
 }

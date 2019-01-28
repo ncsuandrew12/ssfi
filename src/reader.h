@@ -6,7 +6,7 @@
 
 class Reader {
 private:
-    std::ifstream* _stream;
+    std::ifstream* m_stream;
 public:
     explicit Reader(std::ifstream* stream);
 

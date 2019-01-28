@@ -10,21 +10,21 @@ Pool::~Pool() {
     /*
      * Clean up the worker thread objects.
      */
-    for (auto iter = _counters.begin(); iter != _counters.end(); iter++) {
+    for (auto iter = m_counters.begin(); iter != m_counters.end(); iter++) {
         delete (*iter);
     }
-    _counters.clear();
+    m_counters.clear();
 }
 
 std::vector<Counter*>::iterator Pool::begin() {
-    return _counters.begin();
+    return m_counters.begin();
 }
 
 std::vector<Counter*>::iterator Pool::end() {
-    return _counters.end();
+    return m_counters.end();
 }
 
 void Pool::push(Counter* counter) {
-    _counters.push_back(counter);
+    m_counters.push_back(counter);
 }
 

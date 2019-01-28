@@ -4,14 +4,14 @@
 #include <string>
 
 Reader::Reader(std::ifstream* stream) :
-        _stream(stream) {
+        m_stream(stream) {
 }
 
 bool Reader::operator >>(std::string& out) {
     out.clear();
     bool begun = false;
     char c;
-    while (EOF != (c = _stream->get())) {
+    while (EOF != (c = m_stream->get())) {
         if (c >= 'A' && c <= 'Z') {
             c += 'a' - 'A';
         } else if (!((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))) {

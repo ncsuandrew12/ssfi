@@ -11,10 +11,10 @@
 
 class Counter {
 private:
-    Queue* _files;
-    const int _idx;
-    std::thread* _thread;
-    std::map<std::string, long> _words;
+    Queue* m_files;
+    const int m_idx;
+    std::thread* m_thread;
+    std::map<std::string, long> m_words;
 
     /*
      * Process the given file, counting the instances of each word it contains.
@@ -22,7 +22,7 @@ private:
     void process_file(const std::string file);
 
 public:
-    std::exception_ptr _exp;
+    std::exception_ptr m_exp;
 
     explicit Counter(const int& id, Queue* files);
     ~Counter();

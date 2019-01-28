@@ -19,20 +19,20 @@
 #include "queue.h"
 
 Dir_Counter::Dir_Counter(const int& workers, const std::string dir_path) :
-        _dir_path(dir_path), _workers(workers) {
+        m_dir_path(dir_path), m_workers(workers) {
 }
 
 void Dir_Counter::run() {
-    log(LOC, "worker threads: %d", _workers);
-    log(LOC, "target directory: %s", _dir_path.c_str());
+    log(LOC, "worker threads: %d", m_workers);
+    log(LOC, "target directory: %s", m_dir_path.c_str());
 
     log(LOC, "launching filer thread");
     std::thread tfiler = std::thread([this] {this->filer();});
 
     Pool pool;
-    for (int i = 1; i <= _workers; i++) {
+    for (int i = 1; i <= m_workers; i++) {
         log(LOC, "launching worker thread %d", i);
-        pool.push(new Counter(i, &_files));
+        pool.push(new Counter(i, &m_files));
     }
 
     log(LOC, "joining filer thread");
@@ -41,13 +41,13 @@ void Dir_Counter::run() {
     /*
      * Check for errors during file indexing.
      */
-    if (_exp != nullptr) {
-        _files.kill();
-        std::rethrow_exception(_exp);
+    if (m_exp != nullptr) {
+        m_files.kill();
+        std::rethrow_exception(m_exp);
     }
 
     log(LOC, "signaling indexing completion");
-    _files.last_push();
+    m_files.last_push();
 
     std::map<std::string, long> words;
 
@@ -59,8 +59,8 @@ void Dir_Counter::run() {
         /*
          * Check for errors during the worker thread's execution.
          */
-        if ((*iter)->_exp != nullptr) {
-            std::rethrow_exception((*iter)->_exp);
+        if ((*iter)->m_exp != nullptr) {
+            std::rethrow_exception((*iter)->m_exp);
         }
 
         /*
@@ -123,9 +123,9 @@ void Dir_Counter::run() {
  */
 void Dir_Counter::filer() {
     try {
-        filer(_dir_path);
+        filer(m_dir_path);
     } catch (const std::exception& e) {
-        _exp = std::current_exception();
+        m_exp = std::current_exception();
     }
 }
 
@@ -182,17 +182,17 @@ void Dir_Counter::filer(const std::string path) {
 
                 filer(sub_path);
             }
-        } else if ((path.length() >= _suffix.length())
-                && (path.compare(path.length() - _suffix.length(),
-                        _suffix.length(), _suffix) == 0)) {
+        } else if ((path.length() >= m_suffix.length())
+                && (path.compare(path.length() - m_suffix.length(),
+                        m_suffix.length(), m_suffix) == 0)) {
             /*
              * The current path is a .txt file. Queue it up.
              */
-            log(LOC, "found %s file: %s", _suffix.c_str(), path.c_str());
+            log(LOC, "found %s file: %s", m_suffix.c_str(), path.c_str());
 
-            _files.push(path);
+            m_files.push(path);
         } else {
-            log(LOC, "skipping non-%s file: %s", _suffix.c_str(), path.c_str());
+            log(LOC, "skipping non-%s file: %s", m_suffix.c_str(), path.c_str());
         }
 
         closedir(dir);

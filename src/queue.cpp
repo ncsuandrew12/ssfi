@@ -6,63 +6,63 @@
 #include "log.h"
 
 Queue::Queue() {
-    _mx = new std::mutex();
+    m_mx = new std::mutex();
 }
 
 Queue::~Queue() {
-    delete _mx;
+    delete m_mx;
 }
 
 bool Queue::is_done() {
-    std::lock_guard<std::mutex> lck { *_mx };
-    if (_killed || (_pre_done && _list.empty())) {
-        _done = true;
+    std::lock_guard<std::mutex> lck { *m_mx };
+    if (m_killed || (m_pre_done && m_list.empty())) {
+        m_done = true;
     }
-    return _done;
+    return m_done;
 }
 
 void Queue::kill() {
-    std::lock_guard<std::mutex> lck { *_mx };
-    _killed = true;
+    std::lock_guard<std::mutex> lck { *m_mx };
+    m_killed = true;
 }
 
 void Queue::last_push() {
-    std::lock_guard<std::mutex> lck { *_mx };
-    _pre_done = true;
+    std::lock_guard<std::mutex> lck { *m_mx };
+    m_pre_done = true;
 }
 
 bool Queue::pop(std::string* item) {
     bool ret = false;
-    std::lock_guard<std::mutex> lck { *_mx };
-    if (_killed) {
+    std::lock_guard<std::mutex> lck { *m_mx };
+    if (m_killed) {
         throw std::system_error(
                 std::error_code(1, std::generic_category()),
                 "queue was killed.");
         return true;
     }
-    if (!_list.empty()) {
+    if (!m_list.empty()) {
         ret = true;
-        item->assign(_list.front());
-        log(LOC, "popped %s (%d remaining)", item->c_str(), _list.size());
-        _list.pop_front();
+        item->assign(m_list.front());
+        log(LOC, "popped %s (%d remaining)", item->c_str(), m_list.size());
+        m_list.pop_front();
     }
-    if (_pre_done && _list.empty()) {
-        _done = true;
+    if (m_pre_done && m_list.empty()) {
+        m_done = true;
     }
     return ret;
 }
 
 void Queue::push(std::string item) {
-    std::lock_guard<std::mutex> lck { *_mx };
-    if (_killed) {
+    std::lock_guard<std::mutex> lck { *m_mx };
+    if (m_killed) {
         throw std::system_error(
                 std::error_code(1, std::generic_category()),
                 "queue was killed.");
     }
-    if (_done) {
+    if (m_done) {
         throw std::logic_error("queue: push() called after done()");
     }
     log(LOC, "pushing file: %s", item.c_str());
-    _list.push_back(std::move(item));
+    m_list.push_back(std::move(item));
 }
 

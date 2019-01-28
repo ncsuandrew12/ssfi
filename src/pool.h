@@ -8,7 +8,7 @@
 
 class Pool {
 private:
-    std::vector<Counter*> _counters;
+    std::vector<Counter*> m_counters;
 
 public:
     Pool();

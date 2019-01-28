@@ -7,11 +7,11 @@
 
 class Queue {
 private:
-    bool _done = false;
-    bool _killed = false;
-    std::list<std::string> _list;
-    std::mutex* _mx;
-    bool _pre_done = false;
+    bool m_done = false;
+    bool m_killed = false;
+    std::list<std::string> m_list;
+    std::mutex* m_mx;
+    bool m_pre_done = false;
 public:
     Queue();
 
